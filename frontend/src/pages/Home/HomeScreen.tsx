@@ -5,7 +5,7 @@ import TrendingCarousel from "./TrendingCarousel.tsx";
 
 const HomeScreen = () => {
   return (
-    <div className="relative w-full h-screen bg-gradient-to-br from-black to-transparent">
+    <div className="relative w-full h-screen">
       {/* Background Image inside Hero Text */}
 
       {/* Content */}
@@ -25,7 +25,7 @@ const HomeScreen = () => {
         </div>
 
         {/* Navbar */}
-        <div className="flex gap-4 text-sm md:text-base mb-6 justify-center relative">
+        {/* <div className="flex gap-4 text-sm md:text-base mb-6 justify-center relative">
           <div className="flex flex-row bg-gray-900 rounded-4xl">
             {["Popular Now", "Plans", "Reasons to Join", "FAQ"].map((item) => (
               <button
@@ -36,11 +36,11 @@ const HomeScreen = () => {
               </button>
             ))}
           </div>
-        </div>
+        </div> */}
 
         {/* Hero Text */}
         <div
-          className="relative bg-cover bg-center p-16 md:p-20 rounded-3xl overflow-hidden  bottom-0 left-0 w-full "
+          className="relative bg-cover bg-center p-16 md:p-20 rounded-3xl overflow-hidden  bottom-0 left-0 w-full mt-7 "
           style={{
             backgroundImage: `url(${heroImg})`,
 
