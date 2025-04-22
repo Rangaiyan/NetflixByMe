@@ -12,8 +12,8 @@ const HeroSection = () => {
         {/* Header */}
         <div className="flex justify-between items-center mb-2">
           <h1 className="text-3xl font-bold text-red-600">NETFLIX</h1>
-          <div className="flex items-center gap-4">
-            <select className="bg-transparent border text-grey border-gray-400 text-blue px-2 py-1 rounded-2xl">
+          <div className="flex items-center gap-4 ">
+            <select className="bg-transparent border text-grey border-gray-400 text-blue px-2 py-1 rounded">
               <option>English</option>
               <option>हिंदी</option>
             </select>
