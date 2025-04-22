@@ -29,6 +29,14 @@ body,
   -webkit-text-stroke: 1.5px white;
   font-weight: 900;
 }
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
 
 /* body{
   margin: 0;

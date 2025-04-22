@@ -40,7 +40,7 @@ export default function TrendingCarousel() {
         </button>
         <div
           ref={scrollRef}
-          className="flex overflow-x-auto space-x-12 scrollbar-hide overflow-y-hidden"
+          className="flex space-x-12 overflow-x-scroll no-scrollbar overflow-y-hidden"
         >
           {movies.map((movie, index) => (
             <div key={movie.id} className="relative min-w-[150px]">
@@ -63,7 +63,6 @@ export default function TrendingCarousel() {
           <ChevronRight className="text-white w-6 h-6" />
         </button>
       </div>
-      
     </div>
   );
 }
