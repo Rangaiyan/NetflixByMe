@@ -1,14 +1,14 @@
 import "./index.css";
-import HomeScreen from "./pages/Home/HomeScreen.tsx" 
+import HomeScreen from "./pages/Home/HeroSection.tsx";
+import Landing from "./pages/LandingPage.tsx";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 function App() {
   return (
     <>
-    <Routes>
-      <Route path="/" element={<HomeScreen />} />
-    </Routes>
-     
+      <Routes>
+        <Route path="/" element={<Landing />} />
+      </Routes>
     </>
   );
 }

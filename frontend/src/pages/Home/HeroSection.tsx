@@ -1,9 +1,8 @@
 import heroImg from "../../assets/hero.png";
-import logo from "../../assets/netflix-logo.png"
+import logo from "../../assets/netflix-logo.png";
 import { FiChevronRight } from "react-icons/fi";
-import TrendingCarousel from "./TrendingCarousel.tsx";
 
-const HomeScreen = () => {
+const HeroSection = () => {
   return (
     <div className="relative w-full h-screen">
       {/* Background Image inside Hero Text */}
@@ -100,9 +99,8 @@ const HomeScreen = () => {
           </div>
         </div>
       </div>
-      <TrendingCarousel/>
     </div>
   );
 };
 
-export default HomeScreen;
+export default HeroSection;
