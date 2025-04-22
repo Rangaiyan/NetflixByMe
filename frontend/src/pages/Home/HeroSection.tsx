@@ -85,12 +85,12 @@ const HeroSection = () => {
               <input
                 type="email"
                 placeholder="Email address"
-                className="w-full md:flex-1 px-6 py-3 rounded-full backdrop-blur-md text-white bg-gray-800/70 placeholder-white focus:outline-none"
+                className="w-full md:flex-1 px-6 py-3 rounded  text-white  bg-black placeholder-white focus:outline-none opacity-50 border"
                 style={{ fontFamily: "Helvetica Neue, Arial, sans-serif" }}
               />
               <button
                 type="button"
-                className="flex items-center justify-center gap-2 text-white bg-red-600 hover:bg-red-500 font-semibold rounded-full text-lg px-6 py-3 transition"
+                className="flex items-center justify-center gap-2 font-bold text-white bg-red-600 hover:bg-red-500  rounded text-lg px-6 py-3 transition"
               >
                 Get Started
                 <FiChevronRight size={24} />

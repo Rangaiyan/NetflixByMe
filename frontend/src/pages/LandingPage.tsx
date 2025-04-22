@@ -2,6 +2,7 @@ import TresndingCarousel from "./Home/TrendingCarousel";
 import JoinBenefits from "./Home/JoinBenifts";
 import HeroSection from "./Home/HeroSection";
 import FAQAccordion from "./Home/FAQAccordion";
+import Footer from "./Home/Footer";
 
 export default function Landing() {
   return (
@@ -9,7 +10,8 @@ export default function Landing() {
       <HeroSection />
       <TresndingCarousel />
       <JoinBenefits />
-      <FAQAccordion/>
+      <FAQAccordion />
+      <Footer />
     </div>
   );
 }
