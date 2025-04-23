@@ -57,7 +57,7 @@ export default function TrendingCarousel() {
           transition={{ duration: 0.6 }}
           className="flex space-x-12 overflow-x-scroll  no-scrollbar overflow-y-hidden"
         >
-          {movies.map((movie, index) => (
+          {movies.map((movie) => (
             <div key={movie.id} className="relative min-w-[150px]">
               <img
                 src={movie.image}
@@ -65,7 +65,7 @@ export default function TrendingCarousel() {
                 className="w-dvh h-60 object-cover rounded-xl shadow-lg"
               />
               <span className="absolute bottom-3 -left-2 text-8xl outline-text">
-                {index + 1}
+                {movie.id}
               </span>
             </div>
           ))}

@@ -13,11 +13,11 @@ const HeroSection = () => {
         <div className="flex justify-between items-center mb-2">
           <h1 className="text-3xl font-bold text-red-600">NETFLIX</h1>
           <div className="flex items-center gap-4 ">
-            <select className="bg-transparent border text-grey border-gray-400 text-blue px-2 py-1 rounded">
+            <select className="bg-transparent border text-grey border-gray-400 text-blue  px-2 py-1 rounded">
               <option>English</option>
               <option>हिंदी</option>
             </select>
-            <button className="bg-white text-black font-semibold px-4 py-1 rounded-2xl">
+            <button className="bg-red-600 text-white font-semibold px-4 py-1 rounded">
               Sign In
             </button>
           </div>
@@ -59,7 +59,7 @@ const HeroSection = () => {
           {/* Content */}
           <div className="relative z-10 flex flex-col justify-center items-center text-center space-y-6">
             <h1
-              className="text-5xl md:text-7xl font-black mb-4 text-white leading-tight pt-18"
+              className="text-2xl md:text-7xl font-black mb-4 text-white leading-tight pt-18"
               style={{ fontFamily: "Helvetica Neue, Arial, sans-serif" }}
             >
               Unlimited movies, TV <br /> shows and more
