@@ -2,16 +2,16 @@ import React, { useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
 
-import extraction from "../../assets/extraction.jpg";
-import court from "../../assets/court.jpg";
-import dragon from "../../assets/dragon.jpg";
-import leo from "../../assets/leo.jpg";
-import lifegivesyou from "../../assets/lifegivesyouT.jpg";
-import officer from "../../assets/officer.jpg";
-import test from "../../assets/test.jpg";
-import pushpa from "../../assets/pushpa2.jpg";
-import dev from "../../assets/deva.jpg";
-import squid from "../../assets/squid.jpg";
+import extraction from "../assets/extraction.jpg";
+import court from "../assets/court.jpg";
+import dragon from "../assets/dragon.jpg";
+import leo from "../assets/leo.jpg";
+import lifegivesyou from "../assets/lifegivesyouT.jpg";
+import officer from "../assets/officer.jpg";
+import test from "../assets/test.jpg";
+import pushpa from "../assets/pushpa2.jpg";
+import dev from "../assets/deva.jpg";
+import squid from "../assets/squid.jpg";
 
 const movies = [
   { id: 1, title: "leo", image: leo },

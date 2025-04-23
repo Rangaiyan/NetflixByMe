@@ -1,4 +1,4 @@
-import heroImg from "../../assets/hero.png";
+import heroImg from "../assets/hero.png";
 import { Link } from "react-router-dom";
 import { FiChevronRight } from "react-icons/fi";
 
