@@ -3,7 +3,7 @@ import JoinBenefits from "./Home/JoinBenifts";
 import HeroSection from "./Home/HeroSection";
 import FAQAccordion from "./Home/FAQAccordion";
 import Footer from "./Home/Footer";
-
+// just trying pull request
 export default function Landing() {
   return (
     <div className="bg-black text-white">
