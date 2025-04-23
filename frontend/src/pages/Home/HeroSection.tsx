@@ -1,5 +1,5 @@
 import heroImg from "../../assets/hero.png";
-import logo from "../../assets/netflix-logo.png";
+import { Link } from "react-router-dom";
 import { FiChevronRight } from "react-icons/fi";
 
 const HeroSection = () => {
@@ -17,9 +17,11 @@ const HeroSection = () => {
               <option>English</option>
               <option>हिंदी</option>
             </select>
-            <button className="bg-red-600 text-white font-semibold px-4 py-1 rounded">
-              Sign In
-            </button>
+            <Link to="/login">
+              <button className="bg-red-600 text-white font-semibold px-4 py-1 rounded">
+                Sign In
+              </button>
+            </Link>
           </div>
         </div>
 
