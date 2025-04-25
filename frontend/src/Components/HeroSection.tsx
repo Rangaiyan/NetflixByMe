@@ -1,8 +1,24 @@
 import heroImg from "../assets/hero.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FiChevronRight } from "react-icons/fi";
+import { useState } from "react";
+import { p } from "framer-motion/client";
 
 const HeroSection = () => {
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('')
+  const navigate = useNavigate();
+
+  const handleGetStarted = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (emailRegex.test(email)) {
+      navigate("/signup", { state: { email } })
+    } else {
+      setError("please enter valid email address");
+    }
+  }
+
+
   return (
     <div className="relative w-full h-screen">
       {/* Background Image inside Hero Text */}
@@ -82,26 +98,34 @@ const HeroSection = () => {
               membership.
             </p>
 
+           
             {/* Input Form */}
             <div className="flex flex-col md:flex-row items-center w-full max-w-xl gap-3 px-4 mt-4">
               <input
                 type="email"
+                value={email}
                 placeholder="Email address"
-                className="w-full md:flex-1 px-6 py-3 rounded  text-white  bg-black placeholder-white focus:outline-none opacity-50 border"
-                style={{ fontFamily: "Helvetica Neue, Arial, sans-serif" }}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full md:flex-1 px-6 py-3 rounded text-white bg-black placeholder-white focus:outline-none opacity-50 border"
               />
               <button
                 type="button"
-                className="flex items-center justify-center gap-2 font-bold text-white bg-red-600 hover:bg-red-500  rounded text-lg px-6 py-3 transition"
+                onClick={handleGetStarted}
+                className="flex items-center justify-center gap-2 font-bold text-white bg-red-600 hover:bg-red-500 rounded text-lg px-6 py-3 transition"
               >
                 Get Started
                 <FiChevronRight size={24} />
               </button>
             </div>
-          </div>
+
+            {error && <p className="text-red-500 text-sm mt-2 text-center">{error}</p>}
+
+           
+         
         </div>
       </div>
     </div>
+    </div >
   );
 };
 

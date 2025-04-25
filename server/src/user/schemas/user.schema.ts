@@ -2,13 +2,14 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
 @Schema({
-    // timestamps:true
+    timestamps:true
 })
 export class User extends Document {
-  @Prop()
-  name:string
+ 
   @Prop({ required: true, unique: true })
   email: String;
+  @Prop({required:true})
+  name:string
   @Prop({ required: true })
   password: String;
   // @Prop({ type: [Types.ObjectId], ref: 'Movie', default: [] })

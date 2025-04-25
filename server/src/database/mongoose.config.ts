@@ -2,7 +2,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 
 const uri =
-  'mongodb+srv://Rangaiyan02:1234@cluster0.4ptozq4.mongodb.net/signup?retryWrites=true&w=majority&appName=Cluster0';
+  'mongodb+srv://Rangaiyan02:1234@cluster0.4ptozq4.mongodb.net/netflix-clone?retryWrites=true&w=majority&appName=Cluster0';
 
 export const MongooseConfig = MongooseModule.forRoot(uri);
 
