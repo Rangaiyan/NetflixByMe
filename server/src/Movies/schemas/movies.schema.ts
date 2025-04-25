@@ -18,7 +18,7 @@ export class Movie {
   @Prop({ required: true })
   imageUrl: string;
 
-  
+
   // @Prop({ enum: ['U', 'U/A 7+', 'U/A 13+', 'U/A 16+', '18+'], default: 'U' })
   // contentRating: string;
 }

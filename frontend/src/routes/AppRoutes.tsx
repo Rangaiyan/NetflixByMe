@@ -9,8 +9,8 @@ function AppRoutes() {
     <div>
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Register />} />
+        <Route path="/register" element={<Login />} />
       </Routes>
     </div>
   );

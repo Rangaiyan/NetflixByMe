@@ -25,6 +25,6 @@ export class CreateMovieDto {
   imageUrl: string;
 
   // @IsEnum(['U', 'U/A 7+', 'U/A 13+', 'U/A 16+', '18+'])
-  // @IsOptional() // Because your schema provides a default, it's not required in the DTO
+  // @IsOptional() 
   // contentRating?: string;
 }

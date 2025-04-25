@@ -1,32 +1,36 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import* as mongoose from 'mongoose';
+import * as mongoose from 'mongoose';
 import { Movie } from './schemas/movies.schema';
 import { NotFoundError } from 'rxjs';
-
 
 @Injectable()
 export class MovieService {
   constructor(
     @InjectModel(Movie.name)
-    private movieModel:mongoose.Model<Movie>){}
+    private movieModel: mongoose.Model<Movie>,
+  ) {}
 
+  async findAll(): Promise<Movie[]> {
+    const movie = await this.movieModel.find();
+    return movie;
+  }
 
-    async findAll():Promise<Movie[]>{
-      const movie=await this.movieModel.find();
-      return movie
+  async create(movie: Movie): Promise<Movie> {
+    const res = await this.movieModel.create(movie);
+    return res;
+  }
+  async findById(id: String): Promise<Movie> {
+    const mov_id = await this.movieModel.findById(id);
+    if (!mov_id) {
+      throw new NotFoundError('movie is not found');
     }
-
-    async create(movie:Movie):Promise<Movie>{
-      const res= await this.movieModel.create(movie)
-      return res
-    }
-    async findById(id:String):Promise<Movie>{
-      const mov_id= await this.movieModel.findById(id)
-      if(!mov_id){
-        throw new NotFoundError('movie is not found')
-      }
-      return mov_id
-    }
-   
+    return mov_id;
+  }
+  // async updateById(id: String, movie: Movie): Promise<Movie | null> {
+  //   return await this.movieModel.findByIdAndUpdate(id, movie, {
+  //     new: true,
+  //     runValidators: true,
+  //   });
+ // }
 }
