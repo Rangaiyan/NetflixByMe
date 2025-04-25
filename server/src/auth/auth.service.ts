@@ -16,6 +16,7 @@ export class AuthService {
     const { email, password } = credential;
     const user = await this.userModel.findOne({ email });
     
+    
     if (!user) {
       console.log("User not found with email:", email);  // Add this log
       throw new UnauthorizedException("Invalid credentials");
