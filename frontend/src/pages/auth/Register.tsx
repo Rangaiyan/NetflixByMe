@@ -45,7 +45,7 @@ const Register = () => {
         password,
       });
   
-      // ✅ Check backend message
+      
       if (response.data.message === "User already exists") {
         setError("Email already registered. Please use a different one.");
         return;
