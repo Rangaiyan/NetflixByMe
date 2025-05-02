@@ -3,9 +3,8 @@ import { JwtService } from "@nestjs/jwt";
 import { Observable } from "rxjs";
 import { Request } from 'express';
 
- 
 interface CustomRequest extends Request {
-  userId?: string;
+  user?: any; // payload will be attached here
 }
 
 @Injectable()
@@ -17,21 +16,25 @@ export class AuthGuard implements CanActivate {
     const token = this.extractTokenFromHeader(request);
 
     if (!token) {
-      throw new UnauthorizedException('Invalid token');
+      throw new UnauthorizedException('Token missing or invalid');
     }
 
     try {
       const payload = this.jwtService.verify(token);
-      request.userId = payload.userId;  
+      request.user = payload; // Assign whole payload (includes isAdmin)
     } catch (e) {
       Logger.error(e.message);
-      throw new UnauthorizedException('Invalid token');
+      throw new UnauthorizedException('Invalid or expired token');
     }
 
     return true;
   }
 
-  private extractTokenFromHeader(request: CustomRequest): string | undefined {
-    return request.headers.authorization?.split(' ')[1];
+  private extractTokenFromHeader(request: Request): string | undefined {
+    const authHeader = request.headers['authorization'];
+    if (!authHeader) return undefined;
+
+    const [bearer, token] = authHeader.split(' ');
+    return bearer === 'Bearer' ? token : undefined;
   }
 }
