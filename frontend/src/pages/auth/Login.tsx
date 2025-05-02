@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import NFlogo from "../../assets/netflix-logo.png"; 
-import bgImg from "../../assets/hero.png"; 
+import NFlogo from "../../assets/netflix-logo.png";
+import bgImg from "../../assets/hero.png";
 import axios from "axios";
 
 const Login = () => {
@@ -19,38 +19,42 @@ const Login = () => {
     }
   
     setError("");
-    console.log("Signing in...", { email, password });
   
     try {
       const response = await axios.post("http://localhost:3000/auth/signin", {
         email,
         password,
       });
-   console.log(response.data.message )
+  
+      console.log(response.data); 
+  
       if (response.data.message === "User signed in successfully") {
-        navigate("/home");
+        const token = response.data.accessToken; 
+        if (token) {
+          localStorage.setItem('accessToken', token);
+          navigate("/home");
+        } else {
+          setError("Token not found in response.");
+        }
       } else {
         setError("Invalid credentials, please try again.");
       }
     } catch (error: any) {
-      console.error("Login error:", error);
-      setError("Invalid credentials, please try again.");
+      console.error("Login error:", error.response?.data?.message || error.message);
+      setError(error.response?.data?.message || "Something went wrong. Please try again.");
     }
   };
   
 
   return (
     <div className="relative w-full h-screen">
-      {/* Background Image with Dimmed Effect */}
       <div 
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${bgImg})`, filter: "brightness(50%)" }} 
+        style={{ backgroundImage: `url(${bgImg})`, filter: "brightness(50%)" }}
       ></div>
 
-      {/* Netflix Logo near the card */}
       <img src={NFlogo} alt="Netflix Logo" className="absolute top-10 left-12 w-44 h-auto z-10" />
 
-      {/* Centered Sign-In Card */}
       <div className="absolute inset-0 flex items-center justify-center z-10">
         <div className="w-full max-w-md p-8 bg-black bg-opacity-80 rounded text-white">
           <h2 className="text-3xl font-bold mb-6">Sign In</h2>
@@ -97,7 +101,7 @@ const Login = () => {
           <p className="text-sm text-gray-400 mt-6">
             New to Netflix?{" "}
             <button
-              onClick={() => navigate("/signup")}
+              onClick={() => navigate("/")}
               className="text-white hover:underline"
             >
               Sign up now

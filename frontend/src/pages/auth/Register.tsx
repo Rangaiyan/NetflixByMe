@@ -45,7 +45,7 @@ const Register = () => {
         password,
       });
   
-      // ✅ Check backend message
+      
       if (response.data.message === "User already exists") {
         setError("Email already registered. Please use a different one.");
         return;
@@ -70,7 +70,7 @@ const Register = () => {
   
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-white text-black">
-      {/* Navbar */}
+      
       <div className="w-full flex justify-between items-center px-6 py-4 border-b border-gray-300 bg-white fixed top-0 left-0">
         <img src={logo} alt="Netflix Logo" className="w-36 h-auto" />
         <button
@@ -81,7 +81,7 @@ const Register = () => {
         </button>
       </div>
 
-      {/* Main Content */}
+      
       <div className="w-full max-w-md mt-20 p-6">
         <h2 className="text-2xl font-semibold mb-2">Create a password to start your membership</h2>
         <p className="text-black max-w-md mb-6">
@@ -89,13 +89,13 @@ const Register = () => {
         </p>
 
         <form onSubmit={handleRegister} className="w-full">
-          {/* Email Display */}
+         
           <div className="mb-4 text-left">
             <p className="text-sm text-gray-600">Email</p>
             <span className="text-md font-medium text-black">{email}</span>
           </div>
 
-          {/* Username Field */}
+          
           <div className="mb-4 relative">
             <input
               type="text"

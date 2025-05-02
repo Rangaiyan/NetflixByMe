@@ -5,6 +5,12 @@ import Landing from "../pages/LandingPage";
 import Register from "../pages/auth/Register";
 import Home from "../pages/Home";
 
+const isAuthenticated = () => {
+  const token = localStorage.getItem("accessToken");
+  console.log("Checking token:", token);
+  return !!token;
+};
+
 function AppRoutes() {
   return (
     <div>
@@ -12,7 +18,20 @@ function AppRoutes() {
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Register />} />
-        <Route path="/home" element={<Home/>}/>
+
+        <Route
+          path="/home"
+          element={
+            isAuthenticated() ? <Home /> : <Navigate to="/login" replace />
+          }
+        />
+
+        <Route
+          path="*"
+          element={
+            <Navigate to={isAuthenticated() ? "/home" : "/login"} replace />
+          }
+        />
       </Routes>
     </div>
   );
