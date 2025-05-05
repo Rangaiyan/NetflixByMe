@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import mongoose, { Document } from 'mongoose';
+import { Movie } from 'src/modules/Movies/schemas/movies.schema';
 
 export type UserDocument = User & Document;
 
@@ -15,9 +16,16 @@ export class User {
   password: string;
 
   @Prop({ default: false })
-isAdmin: boolean;
+  isAdmin: boolean;
+  
+  @Prop({})
+  age:number
+
+  @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'Movie', default: [] })
+  favoriteMovies: Movie[];
+
+  @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'Movie', default: [] })
+  watchedMovies: Movie[];
 }
 
 export const userSchema = SchemaFactory.createForClass(User);
-
-

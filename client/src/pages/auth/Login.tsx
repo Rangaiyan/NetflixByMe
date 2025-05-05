@@ -26,12 +26,13 @@ const Login = () => {
         password,
       });
   
-      console.log(response.data); 
+      console.log(response.data.access_token); 
   
-      if (response.data.message === "User signed in successfully") {
-        const token = response.data.accessToken; 
+      if (response.status===201) {
+        const token = response.data.access_token; 
         if (token) {
           localStorage.setItem('accessToken', token);
+          console.log("navi")
           navigate("/home");
         } else {
           setError("Token not found in response.");

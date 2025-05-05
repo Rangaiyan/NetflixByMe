@@ -1,5 +1,5 @@
 import api from '../api/axiosInstance';
-import { saveTokens, getRefreshToken } from '../utils/storage';
+import { saveTokens} from '../utils/storage';
 
 export async function login(email: string, password: string) {
   const response = await api.post('/auth/login', { email, password });
@@ -11,11 +11,6 @@ export async function signup(name: string, email: string, password: string) {
   saveTokens(response.data);
 }
 
-export async function refreshAccessToken() {
-  const refreshToken = getRefreshToken();
-  const response = await api.post('/auth/refresh', { refreshToken });
-  saveTokens(response.data);
-}
 
 export function logout() {
   localStorage.clear();
