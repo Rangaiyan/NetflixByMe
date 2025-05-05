@@ -1,7 +1,7 @@
 import { UpdateMovieDto } from './dto/updateMovie.dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Promise } from 'mongoose';
+import { Model,} from 'mongoose';
 import { Movie, MovieDocument } from './schemas/movies.schema';
 import { CreateMovieDto } from './dto/crateMovie.dto';
 
@@ -26,7 +26,8 @@ export class MovieService {
 
   async findOne(id: string): Promise<Movie> {
     const movie = await this.movieModel.findById(id);
-    if (!movie) throw new NotFoundException('Movie not found');
+    if (!movie) 
+      throw new NotFoundException('Movie not found');
     return movie;
   }
 
@@ -34,19 +35,21 @@ export class MovieService {
     const update = await this.movieModel.findByIdAndUpdate(id, updateMovieDto, {
       new: true,
     });
-    if (!update) throw new NotFoundException('Movie not found');
+    if (!update) 
+      throw new NotFoundException('Movie not found');
     return update;
   }
 
   async deleteById(id: string): Promise<Movie> {
     const deleted = await this.movieModel.findByIdAndDelete(id);
-    if (!deleted) throw new NotFoundException('Movie not found');
+    if (!deleted)
+      throw new NotFoundException('Movie not found');
     return deleted;
   }
 
   async search(query: string): Promise<Movie[]> {
     const regex = new RegExp(query, 'i');
-    return this.movieModel.find({
+    const movie=await this.movieModel.find({
       $or: [
         { title: regex },
         { description: regex },
@@ -55,5 +58,10 @@ export class MovieService {
         { language: regex },
       ],
     });
+    if(movie.length==0){
+      console.log("no movies were found")
+    }
+    return movie;
+   
   }
 }

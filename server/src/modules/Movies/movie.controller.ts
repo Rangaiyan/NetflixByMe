@@ -1,4 +1,4 @@
-import { AuthGuard } from './../../common/guards/auth.guard';
+import { JwtAuthGuard } from './../../common/guards/auth.guard';
 import {
   Body,
   Controller,
@@ -14,12 +14,13 @@ import { CreateMovieDto } from './dto/crateMovie.dto';
 import { AdminGuard } from 'src/common/guards/admin.guard';
 import { UpdateMovieDto } from './dto/updateMovie.dto';
 
+@UseGuards(JwtAuthGuard)
 @Controller('movies')
 export class MovieController {
   constructor(private readonly movieService: MovieService) {}
 
   @Post()
-  @UseGuards(AuthGuard, AdminGuard)
+  @UseGuards(AdminGuard)
   create(@Body() createMovieDto: CreateMovieDto) {
     return this.movieService.create(createMovieDto);
   }
@@ -44,13 +45,13 @@ export class MovieController {
   }
 
   @Patch(':id')
-  @UseGuards(AuthGuard, AdminGuard)
+  @UseGuards( AdminGuard)
   update(@Param('id') id: string, @Body() updateMovieDto: UpdateMovieDto) {
     return this.movieService.update(id, updateMovieDto);
   }
 
   @Delete(':id')
-  @UseGuards(AuthGuard, AdminGuard)
+  @UseGuards( AdminGuard)
   deleteById(@Param('id') id: string) {
     return this.movieService.deleteById(id);
   }
