@@ -1,10 +1,13 @@
 import { UpdateMovieDto } from './dto/updateMovie.dto';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Movie, MovieDocument } from './schemas/movies.schema';
+import { Movie, MovieDocument } from '../../schemas/Movieschema/movies.schema';
 import { CreateMovieDto } from './dto/crateMovie.dto';
-import { threadId } from 'worker_threads';
 
 @Injectable()
 export class MovieService {
@@ -16,6 +19,16 @@ export class MovieService {
     const movie = new this.movieModel(createMovieDto);
     return movie.save();
   }
+
+  async createMany(movies: CreateMovieDto[]) {
+    try {
+      return await this.movieModel.insertMany(movies);
+    } catch (error) {
+      console.error('InsertMany Error:', error);
+      throw new InternalServerErrorException('Failed to insert movies');
+    }
+  }
+
   async update(id: string, updateMovieDto: UpdateMovieDto): Promise<Movie> {
     try {
       const update = await this.movieModel.findByIdAndUpdate(
@@ -47,16 +60,16 @@ export class MovieService {
   }
 
   async findByGenre(genre: string): Promise<Movie[]> {
-    const movieByGenre=await this.movieModel.find({ genre });
-    if(movieByGenre.length==0){
-      throw new NotFoundException("there is no movie in this genre");
+    const movieByGenre = await this.movieModel.find({ genre });
+    if (movieByGenre.length == 0) {
+      throw new NotFoundException('there is no movie in this genre');
     }
     return movieByGenre;
   }
-  async findByLanguage(language:string): Promise<Movie[]>{
-    const movieByLang=await this.movieModel.find({language})
-    if(movieByLang.length==0){
-      throw new NotFoundException("there is no movie in this language")
+  async findByLanguage(language: string): Promise<Movie[]> {
+    const movieByLang = await this.movieModel.find({ language });
+    if (movieByLang.length == 0) {
+      throw new NotFoundException('there is no movie in this language');
     }
     return movieByLang;
   }

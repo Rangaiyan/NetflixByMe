@@ -8,6 +8,7 @@ import {
   Patch,
   Post,
   UseGuards,
+  ValidationPipe,
 } from '@nestjs/common';
 import { MovieService } from './movie.service';
 import { CreateMovieDto } from './dto/crateMovie.dto';
@@ -24,15 +25,30 @@ export class MovieController {
   create(@Body() createMovieDto: CreateMovieDto) {
     return this.movieService.create(createMovieDto);
   }
-  
+
+  @UseGuards(AdminGuard)
+  @Post('bulk')
+  async createBulk(
+    @Body(
+      new ValidationPipe({
+        whitelist: true,
+        transform: true,
+        forbidNonWhitelisted: true,
+      }),
+    )
+    movies: CreateMovieDto[],
+  ) {
+    return this.movieService.createMany(movies);
+  }
+
   @Patch(':id')
-  @UseGuards( AdminGuard)
+  @UseGuards(AdminGuard)
   update(@Param('id') id: string, @Body() updateMovieDto: UpdateMovieDto) {
     return this.movieService.update(id, updateMovieDto);
   }
 
   @Delete(':id')
-  @UseGuards( AdminGuard)
+  @UseGuards(AdminGuard)
   deleteById(@Param('id') id: string) {
     return this.movieService.deleteById(id);
   }
@@ -46,14 +62,14 @@ export class MovieController {
   findOne(@Param('id') id: string) {
     return this.movieService.findOne(id);
   }
-  
+
   @Get('genre/:genre')
   findByGenre(@Param('genre') genre: string) {
     return this.movieService.findByGenre(genre);
   }
 
   @Get('language/:lang')
-  findByLang(@Param('lang') lang:string){
+  findByLang(@Param('lang') lang: string) {
     return this.movieService.findByLanguage(lang);
   }
 
@@ -61,6 +77,4 @@ export class MovieController {
   search(@Param('query') query: string) {
     return this.movieService.search(query);
   }
-
- 
 }

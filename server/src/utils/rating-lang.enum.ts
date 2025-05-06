@@ -1,5 +1,5 @@
 export enum contentRating{
-    U='u',
+    U='U',
     UA7Plus = 'U/A 7+',
     UA13Plus = 'U/A 13+',
     UA16Plus = 'U/A 16+',

@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { contentRating, Language } from '../../../utils/rating-lang.enum';
+import { contentRating, Language } from '../../utils/rating-lang.enum';
 
 export type MovieDocument = Movie & Document;
 

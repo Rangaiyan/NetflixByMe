@@ -6,7 +6,7 @@ export class AdminGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const user = request.user;
 
-    // console.log('AdminGuard - User:', user);
+    // console.log('AdminUser:', user);
 
     if (!user || user.isAdmin !== true) {
       throw new ForbiddenException('Access denied only Admins');

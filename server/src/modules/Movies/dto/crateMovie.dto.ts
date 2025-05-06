@@ -17,7 +17,7 @@ export class CreateMovieDto {
   language: Language;
 
   @IsArray()
-  @IsString({ each: true })
+  @IsString({ each: true })// [1, '2', '3', 4]
   genre: string[];
 
   @IsUrl()
