@@ -7,8 +7,8 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
-  ValidationPipe,
 } from '@nestjs/common';
 import { MovieService } from './movie.service';
 import { CreateMovieDto } from './dto/crateMovie.dto';
@@ -28,16 +28,7 @@ export class MovieController {
 
   @UseGuards(AdminGuard)
   @Post('bulk')
-  async createBulk(
-    @Body(
-      new ValidationPipe({
-        whitelist: true,
-        transform: true,
-        forbidNonWhitelisted: true,
-      }),
-    )
-    movies: CreateMovieDto[],
-  ) {
+  async createBulk(@Body() movies: CreateMovieDto[]) {
     return this.movieService.createMany(movies);
   }
 
@@ -52,6 +43,28 @@ export class MovieController {
   deleteById(@Param('id') id: string) {
     return this.movieService.deleteById(id);
   }
+
+  @Get('list')
+  async paginaton(
+    @Query('limit') limit: number,
+    @Query('page') page: number,
+    @Query('sort') sort: string,
+    @Query('orderBy') orderBy: 'asc' | 'desc'
+  ) {
+    const paginationDef = {
+      limit: Number(limit) || 10,
+      page: Number(page) || 1,
+      sort: sort || 'title',
+      orderBy: orderBy === 'desc' ? -1 as const : 1 as const,
+    };
+  
+    console.log('Pagination Query:', paginationDef); 
+  
+    return this.movieService.findAllWithPagination(paginationDef);
+  }
+
+  
+
 
   @Get()
   findAll() {
@@ -77,4 +90,8 @@ export class MovieController {
   search(@Param('query') query: string) {
     return this.movieService.search(query);
   }
+
+
+
+
 }

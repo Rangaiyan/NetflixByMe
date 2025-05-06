@@ -34,7 +34,7 @@ export class AuthService {
   }
 
   async login(user: UserDocument) {
-    console.log(user);
+    // console.log(user);
     const payload = {
       email: user.email,
       sub: user._id,

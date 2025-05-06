@@ -24,7 +24,7 @@ export class MovieService {
     try {
       return await this.movieModel.insertMany(movies);
     } catch (error) {
-      console.error('InsertMany Error:', error);
+      console.error('Error in inserting part:', error);
       throw new InternalServerErrorException('Failed to insert movies');
     }
   }
@@ -95,5 +95,32 @@ export class MovieService {
       console.log('no movies were found');
     }
     return movie;
+  }
+
+  async findAllWithPagination(options) {
+    const { limit, page, sort, orderBy } = options;
+    try {
+      const skipPages = (page - 1) * limit;
+
+      const data = await this.movieModel
+        .find()
+        .sort({ [sort]: orderBy })
+        .skip(skipPages)
+        .limit(limit)
+      
+
+      const totalMovie = await this.movieModel.countDocuments();
+
+      return {
+        data,
+        totalMovie:totalMovie,
+        Inpage: page,
+        moviesInSinglePage: limit,
+        totalPage: Math.ceil(totalMovie / limit),
+      };
+    } catch (error) {
+      console.error('Pagination error:', error);
+      throw new InternalServerErrorException('Failed to paginate movies');
+    }
   }
 }
