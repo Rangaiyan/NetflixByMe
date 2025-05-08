@@ -1,37 +1,37 @@
-import { Body, Controller, Get, Param, Patch, Post, Req } from '@nestjs/common';
-import { Request } from 'express';
+import {
+  Controller,
+  Get,
+  Param,
+  Post,
+  Body,
+  NotFoundException,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
 import { UserService } from './user.service';
-import { UserDto } from './dto/user.dto';
+import { ApiBearerAuth } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/common/guards/auth.guard';
 
 @Controller('users')
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
 export class UserController {
-    constructor(private userService:UserService){}
-  // @Post()
-  // createUser() {
-  //     return 'User created';
-  // }
+  constructor(private readonly userService: UserService) {}
 
-  // @Post(':id')
-  // updateUser(@Param('id') id: string) {
-  //     return `User with ID ${id} updated`;
-  // }
-//   @Post(':id')
-//   getUsers(@Req() req: Request) {
-//     console.log(req);
-//     return req.params.id;
-//   }
   @Get()
-  getAllUsers() {
-    return this.userService.getUser();
+  async getUserDetails(@Request() req) {
+    const user = await this.userService.getUserById(req.user.id);
+    console.log(req.user.id);
+    if (!user) throw new NotFoundException('User not found');
+    return user;
   }
-  @Patch(':id')
-  update(@Body() bdy:any, @Param() id:{id: number}) {
-    return this.userService.update(bdy, id);
+  @Post('favorites')
+  async addToFavorites(@Request() req, @Body() body: { movieId: string }) {
+    return this.userService.addFavoriteMovie(req.user.id, body.movieId);
   }
 
-  @Post()
-  getU(@Body() userDto:UserDto){
-    return this.userService.getU(userDto);
+  @Post('watched')
+  async addToWatched(@Request() req, @Body() body: { movieId: string }) {
+    return this.userService.addWatchedMovie(req.user.id, body.movieId);
   }
-  
 }

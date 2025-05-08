@@ -1,5 +1,6 @@
 import { JwtAuthGuard } from './../../common/guards/auth.guard';
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -8,40 +9,64 @@ import {
   Patch,
   Post,
   Query,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { MovieService } from './movie.service';
 import { CreateMovieDto } from './dto/crateMovie.dto';
 import { AdminGuard } from 'src/common/guards/admin.guard';
 import { UpdateMovieDto } from './dto/updateMovie.dto';
+import { ApiBearerAuth } from '@nestjs/swagger';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
+
 @Controller('movies')
 export class MovieController {
   constructor(private readonly movieService: MovieService) {}
 
-  @Post()
+  @Post('InsertOne') 
   @UseGuards(AdminGuard)
-  create(@Body() createMovieDto: CreateMovieDto) {
-    return this.movieService.create(createMovieDto);
+  @UseInterceptors(FileInterceptor('image')) 
+  async create(
+    @UploadedFile() image: Express.Multer.File,
+    @Body() createMovieDto: CreateMovieDto,
+  ) {
+    try {
+     
+      const movie = await this.movieService.create(image, createMovieDto);
+      return movie;
+    } catch (error) {
+      console.error('Error creating movie:', error);
+      throw new BadRequestException('Failed to create movie.');
+    }
   }
 
+
+  
   @UseGuards(AdminGuard)
-  @Post('bulk')
+  @Post('insertMany')
   async createBulk(@Body() movies: CreateMovieDto[]) {
     return this.movieService.createMany(movies);
   }
 
-  @Patch(':id')
+  @Patch('update/:id')
   @UseGuards(AdminGuard)
   update(@Param('id') id: string, @Body() updateMovieDto: UpdateMovieDto) {
     return this.movieService.update(id, updateMovieDto);
   }
 
-  @Delete(':id')
+  @Delete('delete/:id')
   @UseGuards(AdminGuard)
   deleteById(@Param('id') id: string) {
     return this.movieService.deleteById(id);
+  }
+  @Delete('deleteAll')
+  @UseGuards(AdminGuard)
+  deleteAll() {
+    return this.movieService.deleteAll();
   }
 
   @Get('list')
@@ -49,22 +74,19 @@ export class MovieController {
     @Query('limit') limit: number,
     @Query('page') page: number,
     @Query('sort') sort: string,
-    @Query('orderBy') orderBy: 'asc' | 'desc'
+    @Query('orderBy') orderBy: 'asc' | 'desc',
   ) {
     const paginationDef = {
       limit: Number(limit) || 10,
       page: Number(page) || 1,
       sort: sort || 'title',
-      orderBy: orderBy === 'desc' ? -1 as const : 1 as const,
+      orderBy: orderBy === 'desc' ? -1 : 1,
     };
-  
-    console.log('Pagination Query:', paginationDef); 
-  
+
+    console.log('Pagination Query:', paginationDef);
+
     return this.movieService.findAllWithPagination(paginationDef);
   }
-
-  
-
 
   @Get()
   findAll() {
@@ -90,8 +112,4 @@ export class MovieController {
   search(@Param('query') query: string) {
     return this.movieService.search(query);
   }
-
-
-
-
 }

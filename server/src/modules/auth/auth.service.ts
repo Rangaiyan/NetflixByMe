@@ -4,6 +4,8 @@ import {
   UnauthorizedException,
   BadRequestException,
   ConflictException,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { Signin, Signup } from './dto/auth.dto';
 import { Model } from 'mongoose';
@@ -21,7 +23,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(email: string, password: string): Promise<User> {
+  async validateUser(email: string, password: string): Promise<UserDocument> {
     const user = await this.userModel.findOne({ email });
     if (!user) {
       throw new BadRequestException('User not found');
@@ -33,17 +35,27 @@ export class AuthService {
     return user;
   }
 
-  async login(user: UserDocument) {
+  async login(longinDto:Signin) {
     // console.log(user);
-    const payload = {
-      email: user.email,
-      sub: user._id,
-      isAdmin: user.isAdmin,
-    };
-
-    return {
-      access_token: this.jwtService.sign(payload),
-    };
+    
+    try{
+      const user=await this.validateUser(longinDto.email,longinDto.password);
+      if(!user){
+        throw new HttpException('user not found',HttpStatus.NO_CONTENT);
+      }
+      const payload = {
+        email: user.email,
+        id: user._id,
+        isAdmin: user.isAdmin,
+      };
+      console.log(payload);
+      return {
+        access_token: this.jwtService.sign(payload),
+      }
+    }catch(error){
+      throw new HttpException("Bad Request",HttpStatus.BAD_REQUEST)
+    }
+   
   }
 
   async signup(signUpData: Signup) {

@@ -1,19 +1,55 @@
-import { Injectable, Param, Req } from '@nestjs/common';
-import { Request } from 'express';
-import { UserDto } from './dto/user.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { User, UserDocument } from '../../schemas/Userschemas/user.schema';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class UserService {
-  getUser() {
-    return { emai: 'ranga@gmail.com', password: '1234ra' };
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+
+  async getUserById(userId: string) {
+    return this.userModel
+      .findById(userId)
+      .populate('favoriteMovies')
+      .populate('watchedMovies')
+      .exec();
+  }
+  async addFavoriteMovie(userId: string, movieId: string) {
+    const user = await this.userModel.findById(userId);
+    if (!user) throw new NotFoundException('User not found');
+
+    const alreadyExists = user.favoriteMovies.some(
+      (movie) => movie.toString() === movieId,
+    );
+
+    if (!alreadyExists) {
+      user.favoriteMovies.push(movieId as any);
+      await user.save();
+    }
+
+    return {
+      message: 'Movie added to favorites',
+      favoriteMovies: user.favoriteMovies,
+    };
   }
 
+  // Add movie to watched (if not already added)
+  async addWatchedMovie(userId: string, movieId: string) {
+    const user = await this.userModel.findById(userId);
+    if (!user) throw new NotFoundException('User not found');
 
-  update(body:any ,param:{id:number}){
-    return {body,param}
-  }
-  getU(userDto:UserDto){
-    return userDto;
+    const alreadyExists = user.watchedMovies.some(
+      (movie) => movie.toString() === movieId,
+    );
+
+    if (!alreadyExists) {
+      user.watchedMovies.push(movieId as any);
+      await user.save();
+    }
+
+    return {
+      message: 'Movie marked as watched',
+      watchedMovies: user.watchedMovies,
+    };
   }
 }
-

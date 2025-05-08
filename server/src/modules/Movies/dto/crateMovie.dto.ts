@@ -4,7 +4,8 @@ export class CreateMovieDto {
   @IsString()
   title: string;
 
-  @IsInt()
+  // @IsInt()
+  @IsString()
   year: number;
 
   @IsString()
@@ -16,12 +17,12 @@ export class CreateMovieDto {
   @IsEnum(Language)
   language: Language;
 
-  @IsArray()
+  // @IsArray()
   @IsString({ each: true })// [1, '2', '3', 4]
   genre: string[];
 
-  @IsUrl()
-  imageUrl: string;
+  
+  // imageUrl: string;
 
   @IsEnum(contentRating)
   contentRating: contentRating;

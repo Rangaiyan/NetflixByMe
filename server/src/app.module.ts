@@ -5,13 +5,16 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MovieModule } from './modules/Movies/movie.module';
+import { MulterModule } from '@nestjs/platform-express';
+import * as multer from 'multer'
 
 @Module({
   imports: [
+   
     ConfigModule.forRoot({
       load: [configuration],
       isGlobal: true,
-      cache: true,
+      envFilePath: '.env',
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
@@ -19,6 +22,10 @@ import { MovieModule } from './modules/Movies/movie.module';
         uri: configService.get<string>('database.connectionString'),
       }),
       inject: [ConfigService],
+    }),
+
+    MulterModule.register({
+      storage: multer.memoryStorage(),
     }),
     AuthModule,
     UserModule,

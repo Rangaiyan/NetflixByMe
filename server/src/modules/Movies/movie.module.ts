@@ -4,6 +4,7 @@ import { MovieController } from './movie.controller';
 import { MovieSchema } from '../../schemas/Movieschema/movies.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from '../auth/auth.module';
+import { CloudinaryProvider } from 'src/config/cloudinary.provider';
 
 @Module({
   imports: [
@@ -11,6 +12,6 @@ import { AuthModule } from '../auth/auth.module';
     AuthModule,
   ],
   controllers: [MovieController],
-  providers: [MovieService],
+  providers: [MovieService, CloudinaryProvider],
 })
 export class MovieModule {}
