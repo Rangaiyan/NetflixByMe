@@ -2,30 +2,24 @@ import heroImg from "../assets/hero.png";
 import { Link, useNavigate } from "react-router-dom";
 import { FiChevronRight } from "react-icons/fi";
 import { useState } from "react";
-import { p } from "framer-motion/client";
 
 const HeroSection = () => {
-  const [email, setEmail] = useState('');
-  const [error, setError] = useState('')
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleGetStarted = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (emailRegex.test(email)) {
-      navigate("/signup", { state: { email } })
+      navigate("/signup", { state: { email } });
     } else {
       setError("please enter valid email address");
     }
-  }
-
+  };
 
   return (
     <div className="relative w-full h-screen">
-      {/* Background Image inside Hero Text */}
-
-      {/* Content */}
       <div className="relative z-2 px-12 md:px-10 py-4 flex flex-col h-full space-y-6">
-        {/* Header */}
         <div className="flex justify-between items-center mb-2">
           <h1 className="text-3xl font-bold text-red-600">NETFLIX</h1>
           <div className="flex items-center gap-4 ">
@@ -40,22 +34,6 @@ const HeroSection = () => {
             </Link>
           </div>
         </div>
-
-        {/* Navbar */}
-        {/* <div className="flex gap-4 text-sm md:text-base mb-6 justify-center relative">
-          <div className="flex flex-row bg-gray-900 rounded-4xl">
-            {["Popular Now", "Plans", "Reasons to Join", "FAQ"].map((item) => (
-              <button
-                key={item}
-                className="hover:underline relative p-3.5 pr-5"
-              >
-                {item}
-              </button>
-            ))}
-          </div>
-        </div> */}
-
-        {/* Hero Text */}
         <div
           className="relative bg-cover bg-center p-16 md:p-20 rounded-3xl overflow-hidden  bottom-0 left-0 w-full mt-7 "
           style={{
@@ -71,10 +49,8 @@ const HeroSection = () => {
             maskSize: "cover",
           }}
         >
-          {/* Gradient Overlay */}
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/90 to-black/40 opacity-90 z-0" />
 
-          {/* Content */}
           <div className="relative z-10 flex flex-col justify-center items-center text-center space-y-6">
             <h1
               className="text-2xl md:text-7xl font-black mb-4 text-white leading-tight pt-18"
@@ -98,8 +74,6 @@ const HeroSection = () => {
               membership.
             </p>
 
-           
-            {/* Input Form */}
             <div className="flex flex-col md:flex-row items-center w-full max-w-xl gap-3 px-4 mt-4">
               <input
                 type="email"
@@ -118,14 +92,13 @@ const HeroSection = () => {
               </button>
             </div>
 
-            {error && <p className="text-red-500 text-sm mt-2 text-center">{error}</p>}
-
-           
-         
+            {error && (
+              <p className="text-red-500 text-sm mt-2 text-center">{error}</p>
+            )}
+          </div>
         </div>
       </div>
     </div>
-    </div >
   );
 };
 

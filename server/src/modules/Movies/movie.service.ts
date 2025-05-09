@@ -74,7 +74,6 @@ export class MovieService {
     const batchSize = 500;
     const totalBatches = Math.ceil(movies.length / batchSize);
     let docsSaved = 0;
-
     try {
       for (let i = 0; i < totalBatches; i++) {
         const sliced = movies.slice(count, count + batchSize);
