@@ -33,7 +33,7 @@ export class UserService {
     };
   }
 
-  // Add movie to watched (if not already added)
+  
   async addWatchedMovie(userId: string, movieId: string) {
     const user = await this.userModel.findById(userId);
     if (!user) throw new NotFoundException('User not found');

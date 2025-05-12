@@ -1,4 +1,3 @@
-import React from "react";
 
 const WatchedList= ({ movies }: { movies: any[] }) => {
   return (

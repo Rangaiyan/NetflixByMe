@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Routes, Route, Navigate, Outlet, useLocation } from "react-router-dom";
+import React, { ReactNode } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import Landing from "../pages/LandingPage";
 import Login from "../pages/auth/Login";
@@ -7,48 +7,92 @@ import Register from "../pages/auth/Register";
 import Home from "../pages/Home";
 import MyList from "../Components/HomePageComponents/MyList";
 import WatchedList from "../Components/HomePageComponents/WatchedList";
+import AdminDashboard from "../pages/admin/AdminDashboard";
 
-const useToken = () => localStorage.getItem("accessToken");
+import { getToken, getUserInfo } from "../utils/authUtils";
 
-const ProtectedRoute = () => {
-  const token = useToken();
-  if (!token) {
-    return <Navigate to="/login" replace />;
-  }
-  return <Outlet />;
+interface RouteProps {
+  children: ReactNode;
+}
+
+const PublicRoute: React.FC<RouteProps> = ({ children }) => {
+  const token = getToken();
+  return token ? <Navigate to="/home" replace /> : <>{children}</>;
 };
 
-const PublicRoute = () => {
-  const token = useToken();
-  if (token) {
-    return <Navigate to="/home" replace />;
-  }
-  return <Outlet />;
+const ProtectedRoute: React.FC<RouteProps> = ({ children }) => {
+  const token = getToken();
+  return token ? <>{children}</> : <Navigate to="/login" replace />;
 };
 
-const AppRoutes = () => {
-  const location = useLocation();
-  const [isAuth, setIsAuth] = useState(!!useToken());
+const AdminRoute: React.FC<RouteProps> = ({ children }) => {
+  const user = getUserInfo();
+  return user?.isAdmin ? <>{children}</> : <Navigate to="/home" replace />;
+};
 
-  useEffect(() => {
-    const token = useToken();
-    setIsAuth(!!token);
-  }, [location]);
-
+const AppRoutes: React.FC = () => {
   return (
     <Routes>
-      <Route element={<PublicRoute />}>
-        <Route path="/" element={<Landing />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Register />} />
-      </Route>
+      <Route
+        path="/"
+        element={
+          <PublicRoute>
+            <Landing />
+          </PublicRoute>
+        }
+      />
+      <Route
+        path="/login"
+        element={
+          <PublicRoute>
+            <Login />
+          </PublicRoute>
+        }
+      />
+      <Route
+        path="/signup"
+        element={
+          <PublicRoute>
+            <Register />
+          </PublicRoute>
+        }
+      />
 
-      <Route element={<ProtectedRoute />}>
-        <Route path="/home" element={<Home />} />
-        <Route path="/mylist" element={<MyList />} />
-        <Route path="/watchedlist" element={<WatchedList />} />
-        <Route path="*" element={<Navigate to="/home" replace />} />
-      </Route>
+      <Route
+        path="/home"
+        element={
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/mylist"
+        element={
+          <ProtectedRoute>
+            <MyList />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/watchedlist"
+        element={
+          <ProtectedRoute>
+            <WatchedList />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/admin"
+        element={
+          <AdminRoute>
+            <AdminDashboard/>
+          </AdminRoute>
+        }
+      />
+
+      <Route path="*" element={<Navigate to="/home" replace />} />
     </Routes>
   );
 };

@@ -9,6 +9,7 @@ const HomePage: React.FC = () => {
   const [movies, setMovies] = useState<any[]>([]);
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const token = localStorage.getItem("accessToken");
+ 
 
   useEffect(() => {
     const fetchMovies = async () => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import defaultUser from "../../assets/netflix-profile.jpg";
 import axios from "axios";
@@ -8,6 +8,8 @@ const Navbar: React.FC<{
 }> = ({ setSearchResults }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [search, setSearch] = useState("");
+  const [userName, setUserName] = useState("");
+
   const navigate = useNavigate();
 
   const token = localStorage.getItem("accessToken");
@@ -32,6 +34,23 @@ const Navbar: React.FC<{
     }
   };
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await axios.get("http://localhost:3000/users/profile", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        console.log(res.data.name)
+        setUserName(res.data.name);
+        console.log(setUserName)
+      } catch (error) {
+        console.error("Failed to fetch user profile:", error);
+      }
+    };
+
+    if (token) fetchUser();
+  }, [token]);
+
   return (
     <nav className="flex justify-between items-center bg-black text-white px-6 py-4 sticky top-0 z-50">
       <div className="flex items-center gap-8">
@@ -49,7 +68,6 @@ const Navbar: React.FC<{
       <div className="flex items-center gap-6">
         <input
           type="text"
-          
           placeholder="Search movies..."
           className="px-3 py-1 bg-gray-800 rounded text-white"
           value={search}
@@ -72,7 +90,7 @@ const Navbar: React.FC<{
           />
           {dropdownOpen && (
             <div className="absolute right-0 mt-2 bg-white text-black rounded shadow">
-              <div className="px-4 py-2">Username</div>
+              <div className="px-4 py-2">{userName || "Loading..."}</div>
               <button
                 className="px-4 py-2 hover:bg-gray-200 w-full"
                 onClick={handleLogout}

@@ -1,4 +1,4 @@
-import React from "react";
+
 
 const MyList = ({ movies }: { movies: any[] }) => {
   return (
