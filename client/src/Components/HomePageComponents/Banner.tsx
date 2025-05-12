@@ -1,11 +1,11 @@
-
+import React from "react";
 
 const Banner = ({ movie }: { movie: any }) => {
   if (!movie) return null;
 
   return (
     <div
-      className="h-[80vh] bg-cover bg-center relative"
+      className="h-[80vh] bg-cover bg-center relative z-10"
       style={{ backgroundImage: `url(${movie.imageUrl})` }}
     >
       <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black flex flex-col justify-end px-16 pb-24">

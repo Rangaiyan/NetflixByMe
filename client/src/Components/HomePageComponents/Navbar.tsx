@@ -9,9 +9,9 @@ const Navbar: React.FC<{
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [userName, setUserName] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const navigate = useNavigate();
-
   const token = localStorage.getItem("accessToken");
 
   const handleLogout = () => {
@@ -40,9 +40,8 @@ const Navbar: React.FC<{
         const res = await axios.get("http://localhost:3000/users/profile", {
           headers: { Authorization: `Bearer ${token}` },
         });
-        console.log(res.data.name)
         setUserName(res.data.name);
-        console.log(setUserName)
+        setIsAdmin(res.data.isAdmin); // using isAdmin directly
       } catch (error) {
         console.error("Failed to fetch user profile:", error);
       }
@@ -89,10 +88,23 @@ const Navbar: React.FC<{
             onClick={() => setDropdownOpen(!dropdownOpen)}
           />
           {dropdownOpen && (
-            <div className="absolute right-0 mt-2 bg-white text-black rounded shadow">
-              <div className="px-4 py-2">{userName || "Loading..."}</div>
+            <div className="absolute right-0 mt-2 bg-white text-black rounded shadow min-w-[160px]">
+              <div className="px-4 py-2 font-semibold border-b border-gray-200">
+                {userName || "Loading..."}
+              </div>
+              {isAdmin && (
+                <button
+                  className="px-4 py-2 hover:bg-gray-100 w-full text-left"
+                  onClick={() => {
+                    setDropdownOpen(false);
+                    navigate("/admin");
+                  }}
+                >
+                  Admin Dashboard
+                </button>
+              )}
               <button
-                className="px-4 py-2 hover:bg-gray-200 w-full"
+                className="px-4 py-2 hover:bg-gray-100 w-full text-left"
                 onClick={handleLogout}
               >
                 Logout

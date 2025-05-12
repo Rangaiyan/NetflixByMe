@@ -21,7 +21,7 @@ export class UserController {
   @Get('profile')
   async getUserDetails(@Request() req) {
     const user = await this.userService.getUserById(req.user.id);
-    console.log(req.user.id);
+    // console.log(req.user.id);
     if (!user) throw new NotFoundException('User not found');
     return user;
   }

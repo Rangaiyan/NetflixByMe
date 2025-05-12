@@ -15,7 +15,7 @@ const SouthIndianMovies = ({ movies }: { movies: any[] }) => {
               alt={movie.title}
               className="w-full h-48 object-cover rounded"
             />
-            <p className="text-sm text-center mt-1">{movie.title}</p>
+            {/* <p className="text-sm text-center mt-1">{movie.title}</p> */}
           </div>
         ))}
       </div>

@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { ContentRating, Language, Genre } from "../../utils/enums";
 
 const AddMovieForm = () => {
   const [title, setTitle] = useState("");
   const [year, setYear] = useState("");
   const [description, setDescription] = useState("");
   const [director, setDirector] = useState("");
-  const [language, setLanguage] = useState("");
-  const [genre, setGenre] = useState("");
-  const [contentRating, setContentRating] = useState("");
+  const [language, setLanguage] = useState<Language | "">("");
+  const [genre, setGenre] = useState<Genre[]>([]);
+  const [contentRating, setContentRating] = useState<ContentRating | "">("");
   const [image, setImage] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -22,7 +23,7 @@ const AddMovieForm = () => {
       !description ||
       !director ||
       !language ||
-      !genre ||
+      genre.length === 0 ||
       !contentRating ||
       !image
     ) {
@@ -32,17 +33,18 @@ const AddMovieForm = () => {
     }
 
     const formData = new FormData();
-    formData.append("title", title);
-    formData.append("year", year);
-    formData.append("description", description);
-    formData.append("director", director);
-    formData.append("language", language);
-    formData.append("genre", genre);
-    formData.append("contentRating", contentRating);
+    formData.set("title", title);
+    formData.set("year", year);
+    formData.set("description", description);
+    formData.set("director", director);
+    formData.set("language", language);
+    formData.set("genre", genre.join(", "));
+    formData.set("contentRating", contentRating);
     formData.append("image", image);
 
     try {
       const token = localStorage.getItem("accessToken");
+
       const response = await axios.post(
         "http://localhost:3000/movies/insertOne",
         formData,
@@ -57,13 +59,12 @@ const AddMovieForm = () => {
       alert("Movie added successfully!");
       console.log("Response:", response.data);
 
-      // Reset form
       setTitle("");
       setYear("");
       setDescription("");
       setDirector("");
       setLanguage("");
-      setGenre("");
+      setGenre([]);
       setContentRating("");
       setImage(null);
     } catch (error: any) {
@@ -76,15 +77,24 @@ const AddMovieForm = () => {
     }
   };
 
+  const handleGenreChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const options = e.target.options;
+    const selectedGenres: Genre[] = [];
+    for (let i = 0; i < options.length; i++) {
+      if (options[i].selected) {
+        selectedGenres.push(options[i].value as Genre);
+      }
+    }
+    setGenre(selectedGenres);
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
-
         <div className="bg-red-600 text-black py-4 px-6">
           <h1 className="text-2xl font-bold">Admin Panel</h1>
           <p className="text-sm opacity-80">Manage your movie database</p>
         </div>
-
 
         <div className="p-6">
           <h2 className="text-xl font-semibold mb-6 text-black">
@@ -120,7 +130,6 @@ const AddMovieForm = () => {
                     required
                   />
                 </div>
-
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Director
@@ -134,51 +143,69 @@ const AddMovieForm = () => {
                     required
                   />
                 </div>
-
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Language
                   </label>
-                  <input
-                    type="text"
+                  <select
                     value={language}
-                    onChange={(e) => setLanguage(e.target.value)}
-                    placeholder="Movie language"
+                    onChange={(e) => setLanguage(e.target.value as Language)}
                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                     required
-                  />
+                  >
+                    <option value="">Select Language</option>
+                    {Object.values(Language).map((lang) => (
+                      <option key={lang} value={lang}>
+                        {lang}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
 
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Genre
+                    Genre (Select multiple)
                   </label>
-                  <input
-                    type="text"
+                  <select
+                    multiple
                     value={genre}
-                    onChange={(e) => setGenre(e.target.value)}
-                    placeholder="Movie genre"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                    onChange={handleGenreChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 h-[calc(2.5rem*3)]" // Adjust height to show multiple options
                     required
-                  />
+                    size={5} // Show 5 options at once
+                  >
+                    {Object.values(Genre).map((g) => (
+                      <option key={g} value={g}>
+                        {g}
+                      </option>
+                    ))}
+                  </select>
+                  <p className="text-xs text-gray-500 mt-1">
+                    Hold Ctrl/Cmd to select multiple genres
+                  </p>
                 </div>
-
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Content Rating
                   </label>
-                  <input
-                    type="text"
+                  <select
                     value={contentRating}
-                    onChange={(e) => setContentRating(e.target.value)}
-                    placeholder="PG-13, R, etc."
+                    onChange={(e) =>
+                      setContentRating(e.target.value as ContentRating)
+                    }
                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                     required
-                  />
+                  >
+                    <option value="">Select Rating</option>
+                    {Object.values(ContentRating).map((rating) => (
+                      <option key={rating} value={rating}>
+                        {rating}
+                      </option>
+                    ))}
+                  </select>
                 </div>
-
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Movie Poster
@@ -246,33 +273,7 @@ const AddMovieForm = () => {
                     : "bg-red-600 hover:bg-red-700 transition-colors"
                 }`}
               >
-                {isLoading ? (
-                  <span className="flex items-center justify-center">
-                    <svg
-                      className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                      ></circle>
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
-                    </svg>
-                    Processing...
-                  </span>
-                ) : (
-                  "Add Movie"
-                )}
+                {isLoading ? "Submitting..." : "Add Movie"}
               </button>
             </div>
           </form>

@@ -10,7 +10,7 @@ interface Movie {
   language: string;
   genre: string;
   contentRating: string;
-  imageUrl: string;
+//   imageUrl: string;
 }
 
 interface Props {
@@ -23,42 +23,72 @@ const EditMovieForm = ({ movie, onClose, onUpdate }: Props) => {
   const [formData, setFormData] = useState({ ...movie });
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
+    const token = localStorage.getItem("accessToken");
+    if (!token) {
+      alert("Please login again.");
+      return;
+    }
 
     try {
-      const token = localStorage.getItem("accessToken");
-      await axios.patch(
+      setIsLoading(true);
+
+      const payload = {
+        title: formData.title,
+        year: formData.year, 
+        description: formData.description,
+        director: formData.director,
+        language: formData.language,
+        genre: formData.genre,
+        contentRating: formData.contentRating,
+        // imageUrl: formData.imageUrl,
+      };
+
+      const response = await axios.patch(
         `http://localhost:3000/movies/update/${movie._id}`,
-        formData,
+        payload,
         {
           headers: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      alert("Movie updated successfully");
-      onClose();
+
+    //   console.log("Update response:", response.data);
+      alert("Movie updated successfully!");
       onUpdate();
-    } catch (error) {
+      onClose(); 
+    } catch (error: any) {
       console.error("Update failed:", error);
-      alert("Failed to update movie.");
+      alert(error?.response?.data?.message || "Failed to update movie.");
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow max-w-3xl mx-auto">
+    <form
+      onSubmit={handleSubmit}
+      className="bg-white p-6 rounded-lg shadow max-w-3xl mx-auto"
+    >
       <h2 className="text-xl font-bold mb-4 text-black">Edit Movie</h2>
 
-      {["title", "year", "director", "language", "genre", "contentRating"].map((field) => (
+      {[
+        "title",
+        "year",
+        "director",
+        "language",
+        "genre",
+        "contentRating",
+        "imageUrl",
+      ].map((field) => (
         <div className="mb-3" key={field}>
           <label className="block text-sm font-medium text-gray-700 mb-1 capitalize">
             {field}
