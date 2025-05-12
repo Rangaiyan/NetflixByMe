@@ -1,5 +1,5 @@
-import React, { ReactNode } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import React from "react";
+import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 
 import Landing from "../pages/LandingPage";
 import Login from "../pages/auth/Login";
@@ -11,86 +11,42 @@ import AdminDashboard from "../pages/admin/AdminDashboard";
 
 import { getToken, getUserInfo } from "../utils/authUtils";
 
-interface RouteProps {
-  children: ReactNode;
-}
 
-const PublicRoute: React.FC<RouteProps> = ({ children }) => {
+const PublicRoute = () => {
   const token = getToken();
-  return token ? <Navigate to="/home" replace /> : <>{children}</>;
+  return token ? <Navigate to="/home" replace /> : <Outlet />;
 };
 
-const ProtectedRoute: React.FC<RouteProps> = ({ children }) => {
+
+const ProtectedRoute = () => {
   const token = getToken();
-  return token ? <>{children}</> : <Navigate to="/login" replace />;
+  return token ? <Outlet /> : <Navigate to="/login" replace />;
 };
 
-const AdminRoute: React.FC<RouteProps> = ({ children }) => {
+const AdminRoute = () => {
   const user = getUserInfo();
-  return user?.isAdmin ? <>{children}</> : <Navigate to="/home" replace />;
+  return user?.isAdmin ? <Outlet /> : <Navigate to="/home" replace />;
 };
 
 const AppRoutes: React.FC = () => {
   return (
     <Routes>
-      <Route
-        path="/"
-        element={
-          <PublicRoute>
-            <Landing />
-          </PublicRoute>
-        }
-      />
-      <Route
-        path="/login"
-        element={
-          <PublicRoute>
-            <Login />
-          </PublicRoute>
-        }
-      />
-      <Route
-        path="/signup"
-        element={
-          <PublicRoute>
-            <Register />
-          </PublicRoute>
-        }
-      />
 
-      <Route
-        path="/home"
-        element={
-          <ProtectedRoute>
-            <Home />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/mylist"
-        element={
-          <ProtectedRoute>
-            <MyList />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/watchedlist"
-        element={
-          <ProtectedRoute>
-            <WatchedList />
-          </ProtectedRoute>
-        }
-      />
+      <Route element={<PublicRoute />}>
+        <Route path="/" element={<Landing />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Register />} />
+      </Route>
 
-      <Route
-        path="/admin"
-        element={
-          <AdminRoute>
-            <AdminDashboard/>
-          </AdminRoute>
-        }
-      />
+      <Route element={<ProtectedRoute />}>
+        <Route path="/home" element={<Home />} />
+        <Route path="/mylist" element={<MyList />} />
+        <Route path="/watchedlist" element={<WatchedList />} />
+      </Route>
+
+      <Route element={<AdminRoute />}>
+        <Route path="/admin" element={<AdminDashboard />} />
+      </Route>
 
       <Route path="*" element={<Navigate to="/home" replace />} />
     </Routes>
