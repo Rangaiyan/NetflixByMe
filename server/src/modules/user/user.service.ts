@@ -33,7 +33,6 @@ export class UserService {
     };
   }
 
-  
   async addWatchedMovie(userId: string, movieId: string) {
     const user = await this.userModel.findById(userId);
     if (!user) throw new NotFoundException('User not found');
@@ -49,6 +48,32 @@ export class UserService {
 
     return {
       message: 'Movie marked as watched',
+      watchedMovies: user.watchedMovies,
+    };
+  }
+
+  async getFavoriteMovies(userId: string) {
+    const user = await this.userModel
+      .findById(userId)
+      .populate('favoriteMovies')
+      .exec();
+
+    if (!user) throw new NotFoundException('User not found');
+
+    return {
+      favoriteMovies: user.favoriteMovies,
+    };
+  }
+
+  async getWatchedMovies(userId: string) {
+    const user = await this.userModel
+      .findById(userId)
+      .populate('watchedMovies')
+      .exec();
+
+    if (!user) throw new NotFoundException('User not found');
+
+    return {
       watchedMovies: user.watchedMovies,
     };
   }

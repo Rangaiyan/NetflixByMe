@@ -13,8 +13,8 @@ interface Movie {
 
 interface MovieCardProps {
   movie: Movie;
-  onAddToFav: (movieId: string) => void;
-  onAddToWatched: (movieId: string) => void;
+  onAddToFav?: (movieId: string) => void;
+  onAddToWatched?: (movieId: string) => void;
 }
 
 const MovieCard: React.FC<MovieCardProps> = ({
@@ -40,7 +40,7 @@ const MovieCard: React.FC<MovieCardProps> = ({
       {showPopup && (
         <>
           <div
-            className="fixed inset-0  bg-opacity-0 z-[9998]"
+            className="fixed inset-0  bg-opacity-50 z-[9998]"
             onClick={() => setShowPopup(false)}
           ></div>
           <div className="fixed z-[9999] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[320px] lg:w-[400px] bg-zinc-900 text-white rounded-lg shadow-2xl transition-transform duration-300">
@@ -65,7 +65,7 @@ const MovieCard: React.FC<MovieCardProps> = ({
               <div className="flex items-center gap-3 mt-4">
                 <button
                   onClick={() => {
-                    onAddToFav(movie._id);
+                    onAddToFav?.(movie._id); 
                     setShowPopup(false);
                   }}
                   className="flex items-center gap-2 px-3 py-2 bg-red-600 text-sm rounded hover:bg-red-700"
@@ -74,7 +74,7 @@ const MovieCard: React.FC<MovieCardProps> = ({
                 </button>
                 <button
                   onClick={() => {
-                    onAddToWatched(movie._id);
+                    onAddToWatched?.(movie._id);
                     setShowPopup(false);
                   }}
                   className="px-3 py-2 bg-green-600 text-sm rounded hover:bg-green-700"

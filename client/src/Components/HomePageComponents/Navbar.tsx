@@ -41,7 +41,7 @@ const Navbar: React.FC<{
           headers: { Authorization: `Bearer ${token}` },
         });
         setUserName(res.data.name);
-        setIsAdmin(res.data.isAdmin); // using isAdmin directly
+        setIsAdmin(res.data.isAdmin); 
       } catch (error) {
         console.error("Failed to fetch user profile:", error);
       }
@@ -51,7 +51,7 @@ const Navbar: React.FC<{
   }, [token]);
 
   return (
-    <nav className="flex justify-between items-center bg-black text-white px-6 py-4 sticky top-0 z-50">
+    <nav className="flex justify-between items-center bg-black text-white px-6 py-4 sticky top-0 z-50 ">
       <div className="flex items-center gap-8">
         <h1
           className="text-red-600 font-bold text-2xl cursor-pointer"
@@ -60,7 +60,7 @@ const Navbar: React.FC<{
           NETFLIX
         </h1>
         <button onClick={() => navigate("/home")}>Home</button>
-        <button onClick={() => navigate("/favlist")}>MyList</button>
+        <button onClick={() => navigate("/mylist")}>MyList</button>
         <button onClick={() => navigate("/watched")}>WatchedList</button>
       </div>
 

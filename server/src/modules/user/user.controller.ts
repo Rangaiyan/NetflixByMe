@@ -34,4 +34,14 @@ export class UserController {
   async addToWatched(@Request() req, @Body() body: { movieId: string }) {
     return this.userService.addWatchedMovie(req.user.id, body.movieId);
   }
+
+  @Get('favorites')
+  async getFavoriteMovies(@Request() req) {
+    return this.userService.getFavoriteMovies(req.user.id);
+  }
+
+  @Get('watched')
+  async getWatchedMovies(@Request() req) {
+    return this.userService.getWatchedMovies(req.user.id);
+  }
 }

@@ -11,12 +11,10 @@ import AdminDashboard from "../pages/admin/AdminDashboard";
 
 import { getToken, getUserInfo } from "../utils/authUtils";
 
-
 const PublicRoute = () => {
   const token = getToken();
   return token ? <Navigate to="/home" replace /> : <Outlet />;
 };
-
 
 const ProtectedRoute = () => {
   const token = getToken();
@@ -31,23 +29,21 @@ const AdminRoute = () => {
 const AppRoutes: React.FC = () => {
   return (
     <Routes>
-
       <Route element={<PublicRoute />}>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Register />} />
       </Route>
-
+      
       <Route element={<ProtectedRoute />}>
         <Route path="/home" element={<Home />} />
         <Route path="/mylist" element={<MyList />} />
-        <Route path="/watchedlist" element={<WatchedList />} />
+        <Route path="/watched" element={<WatchedList />} />
       </Route>
-
+      
       <Route element={<AdminRoute />}>
         <Route path="/admin" element={<AdminDashboard />} />
       </Route>
-
       <Route path="*" element={<Navigate to="/home" replace />} />
     </Routes>
   );

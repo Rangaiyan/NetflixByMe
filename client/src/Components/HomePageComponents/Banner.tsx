@@ -1,4 +1,3 @@
-import React from "react";
 
 const Banner = ({ movie }: { movie: any }) => {
   if (!movie) return null;
