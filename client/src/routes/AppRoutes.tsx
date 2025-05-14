@@ -10,6 +10,7 @@ import WatchedList from "../Components/HomePageComponents/WatchedList";
 import AdminDashboard from "../pages/admin/AdminDashboard";
 
 import { getToken, getUserInfo } from "../utils/authUtils";
+import NotFoundPage from "../Components/page404/NotFoundPage";
 
 const PublicRoute = () => {
   const token = getToken();
@@ -18,11 +19,19 @@ const PublicRoute = () => {
 
 const ProtectedRoute = () => {
   const token = getToken();
-  return token ? <Outlet /> : <Navigate to="/login" replace />;
+  const user = getUserInfo();
+
+  if (!token) return <Navigate to="/login" replace />;
+  if (user?.isAdmin) return <Navigate to="/admin" replace />;
+
+  return <Outlet />;
 };
 
 const AdminRoute = () => {
+  const token = getToken();
   const user = getUserInfo();
+
+  if (!token) return <Navigate to="/login" replace />;
   return user?.isAdmin ? <Outlet /> : <Navigate to="/home" replace />;
 };
 
@@ -34,17 +43,17 @@ const AppRoutes: React.FC = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Register />} />
       </Route>
-      
+
       <Route element={<ProtectedRoute />}>
         <Route path="/home" element={<Home />} />
         <Route path="/mylist" element={<MyList />} />
         <Route path="/watched" element={<WatchedList />} />
       </Route>
-      
+
       <Route element={<AdminRoute />}>
         <Route path="/admin" element={<AdminDashboard />} />
       </Route>
-      <Route path="*" element={<Navigate to="/home" replace />} />
+      <Route path="*" element={<NotFoundPage/>} />
     </Routes>
   );
 };

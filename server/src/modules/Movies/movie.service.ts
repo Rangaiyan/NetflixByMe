@@ -208,4 +208,13 @@ export class MovieService {
       throw new InternalServerErrorException('Failed to paginate movies');
     }
   }
+
+//  async getTrendingMovies(): Promise<Movie[]> {
+//     return this.movieModel
+//       .find()
+//       .sort({ viewsCount: -1 })
+//       .limit(10)
+//       .exec();
+//   }
+
 }

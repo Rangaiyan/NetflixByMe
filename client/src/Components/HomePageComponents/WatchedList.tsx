@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import MovieCard from "../ui/MovieCard";
 import { useNavigate } from "react-router-dom";
+import api from "../../api/axiosInstance"; 
 
 interface Movie {
   _id: string;
@@ -19,21 +19,11 @@ const WatchedList: React.FC = () => {
 
   const fetchWatchedMovies = async () => {
     try {
-      const token = localStorage.getItem("accessToken");
-      if (!token) {
-        alert("Please log in to view watched movies.");
-        return;
-      }
-
-      const response = await axios.get("http://localhost:3000/users/watched", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
+      const response = await api.get("/users/watched");
       setWatchedMovies(response.data.watchedMovies || []);
     } catch (error) {
       console.error("Error fetching watched movies:", error);
+      alert("Failed to fetch watched movies.");
     }
   };
 

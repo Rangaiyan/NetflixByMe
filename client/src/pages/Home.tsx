@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api/axiosInstance";
 import Navbar from "../Components/HomePageComponents/Navbar";
 import Banner from "../Components/HomePageComponents/Banner";
 import AllMovies from "../Components/HomePageComponents/AllMovies";
 import SouthIndianMovies from "../Components/HomePageComponents/SouthIndianMovies";
+import {OnAddToFav,OnAddToWatched   } from "../utils/movieActions"; 
 
 const HomePage: React.FC = () => {
   const [movies, setMovies] = useState<any[]>([]);
   const [searchResults, setSearchResults] = useState<any[]>([]);
-  const token = localStorage.getItem("accessToken");
 
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/movies", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await api.get("/movies");
         setMovies(res.data);
       } catch (err) {
         console.error("Error loading movies:", err);
@@ -24,39 +22,12 @@ const HomePage: React.FC = () => {
     fetchMovies();
   }, []);
 
-
   const handleAddToFav = async (movieId: string) => {
-    try {
-      await axios.post(
-        `http://localhost:3000/user/addToFav`,
-        { movieId },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      alert("Added to Favorites!");
-    } catch (err) {
-      console.error("Failed to add to favorites", err);
-    }
+    await OnAddToFav(movieId);
   };
 
   const handleAddToWatched = async (movieId: string) => {
-    try {
-      await axios.post(
-        `http://localhost:3000/user/addToWatched`,
-        { movieId },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      alert("Marked as Watched!");
-    } catch (err) {
-      console.error("Failed to add to watched", err);
-    }
+    await OnAddToWatched(movieId);
   };
 
   return (

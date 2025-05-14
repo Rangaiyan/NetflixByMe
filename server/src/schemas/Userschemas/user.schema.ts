@@ -21,11 +21,11 @@ export class User {
   @Prop({})
   age: number;
 
-  @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'Movie', default: [] })
-  favoriteMovies: Movie[];
+  // @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'Movie', default: [] })
+  // favoriteMovies: Movie[];
 
-  @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'Movie', default: [] })
-  watchedMovies: Movie[];
+  // @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'Movie', default: [] })
+  // watchedMovies: Movie[];
 }
 
 export const userSchema = SchemaFactory.createForClass(User);

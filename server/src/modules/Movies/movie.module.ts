@@ -13,5 +13,6 @@ import { CloudinaryProvider } from 'src/config/cloudinary.provider';
   ],
   controllers: [MovieController],
   providers: [MovieService, CloudinaryProvider],
+  exports:[MongooseModule]
 })
 export class MovieModule {}

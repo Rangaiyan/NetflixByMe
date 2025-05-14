@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import{ useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AddMovieForm from "./AddMovieForm";
 import MovieList from "./MovieList";
@@ -9,7 +9,6 @@ const AdminDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Header / Navigation Tabs */}
       <div className="bg-white shadow px-6 py-4 flex justify-between items-center sticky top-0 z-10">
         <h2 className="text-2xl font-semibold text-gray-800">Admin Dashboard</h2>
 
@@ -35,8 +34,6 @@ const AdminDashboard = () => {
           >
             Movie List
           </button>
-
-          {/* Home Button */}
           <button
             onClick={() => navigate("/home")}
             className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700"
@@ -45,8 +42,6 @@ const AdminDashboard = () => {
           </button>
         </div>
       </div>
-
-      {/* Dynamic Component Rendering */}
       <div className="p-6">
         {activeTab === "add" && <AddMovieForm />}
         {activeTab === "list" && <MovieList />}

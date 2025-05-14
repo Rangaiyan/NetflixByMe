@@ -174,7 +174,7 @@ const AddMovieForm = () => {
                     onChange={handleGenreChange}
                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 h-[calc(2.5rem*3)]" // Adjust height to show multiple options
                     required
-                    size={5} // Show 5 options at once
+                    size={5}
                   >
                     {Object.values(Genre).map((g) => (
                       <option key={g} value={g}>

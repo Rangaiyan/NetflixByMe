@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import defaultUser from "../../assets/netflix-profile.jpg";
-import axios from "axios";
+import api from "../../api/axiosInstance";
 
 const Navbar: React.FC<{
   setSearchResults: (movies: any[]) => void;
@@ -12,7 +12,6 @@ const Navbar: React.FC<{
   const [isAdmin, setIsAdmin] = useState(false);
 
   const navigate = useNavigate();
-  const token = localStorage.getItem("accessToken");
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
@@ -22,12 +21,7 @@ const Navbar: React.FC<{
   const handleSearch = async () => {
     if (!search.trim()) return;
     try {
-      const res = await axios.get(
-        `http://localhost:3000/movies/search/${search}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const res = await api.get(`/movies/search/${search}`);
       setSearchResults(res.data);
     } catch (error) {
       console.error("Search error:", error);
@@ -37,18 +31,17 @@ const Navbar: React.FC<{
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/users/profile", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await api.get("/users/profile");
         setUserName(res.data.name);
-        setIsAdmin(res.data.isAdmin); 
+        setIsAdmin(res.data.isAdmin);
       } catch (error) {
         console.error("Failed to fetch user profile:", error);
       }
     };
 
+    const token = localStorage.getItem("accessToken");
     if (token) fetchUser();
-  }, [token]);
+  }, []);
 
   return (
     <nav className="flex justify-between items-center bg-black text-white px-6 py-4 sticky top-0 z-50 ">

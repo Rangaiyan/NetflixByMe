@@ -1,7 +1,7 @@
 import React from "react";
 import MovieCard from "../ui/MovieCard";
-import { OnAddToFav } from "../../utils/OnAddToFav"; 
-import { OnAddToWatched } from "../../utils/OnAddToWatched";
+import { OnAddToFav,OnAddToWatched  } from "../../utils/movieActions"; 
+
 
 interface Movie {
   _id: string;
@@ -15,6 +15,8 @@ interface Movie {
 
 interface AllMoviesProps {
   movies: Movie[];
+  onAddToFav: (movieId: string) => void;
+  onAddToWatched: (movieId: string) => void;
 }
 
 const AllMovies: React.FC<AllMoviesProps> = ({ movies}) => {

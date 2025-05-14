@@ -19,17 +19,18 @@ import { AdminGuard } from 'src/common/guards/admin.guard';
 import { UpdateMovieDto } from './dto/updateMovie.dto';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { Movie } from 'src/schemas/Movieschema/movies.schema';
 
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
 
 @Controller('movies')
 export class MovieController {
-  constructor(private readonly movieService: MovieService) {}
+  constructor(private readonly movieService: MovieService ) {}
 
   @Post('InsertOne') 
   @UseGuards(AdminGuard)
-  @UseInterceptors(FileInterceptor('image')) 
+  @UseInterceptors(FileInterceptor('image'))  
   async create(
     @UploadedFile() image: Express.Multer.File,
     @Body() createMovieDto: CreateMovieDto,
@@ -112,4 +113,9 @@ export class MovieController {
   search(@Param('query') query: string) {
     return this.movieService.search(query);
   }
+
+  //  @Get('trending')
+  // async getTrending(): Promise<Movie[]> {
+  //   return this.movieService.getTrendingMovies();
+  // }
 }

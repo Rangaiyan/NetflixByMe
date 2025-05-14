@@ -60,8 +60,8 @@ const EditMovieForm = ({ movie, onClose, onUpdate }: Props) => {
           },
         }
       );
-
-    //   console.log("Update response:", response.data);
+      
+      console.log("Update response:", response.data);
       alert("Movie updated successfully!");
       onUpdate();
       onClose(); 

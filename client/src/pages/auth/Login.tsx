@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NFlogo from "../../assets/netflix-logo.png";
 import bgImg from "../../assets/hero.png";
-import axios from "axios";
+import { loginUser } from "../../utils/authService";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -12,76 +12,56 @@ const Login = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-  
+
     if (!email || !password) {
       setError("Email and password are required.");
       return;
     }
-  
-    setError("");
-  
+
     try {
-      const response = await axios.post("http://localhost:3000/auth/signin", {
-        email,
-        password,
-      });
-  
-      console.log(response.data.access_token); 
-  
-      if (response.status===201) {
-        const token = response.data.access_token; 
-        if (token) {
-          localStorage.setItem('accessToken', token);
-          console.log("navi")
-          navigate("/home");
-        } else {
-          setError("Token not found in response.");
-        }
-      } else {
-        setError("Invalid credentials, please try again.");
-      }
-    } catch (error: any) {
-      console.error("Login error:", error.response?.data?.message || error.message);
-      setError(error.response?.data?.message || "Something went wrong. Please try again.");
+      const token = await loginUser(email, password); 
+      localStorage.setItem("accessToken", token);
+      navigate("/home");
+    } catch (err: any) {
+      setError(err.message);
     }
   };
-  
 
   return (
     <div className="relative w-full h-screen">
-      <div 
+      <div
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: `url(${bgImg})`, filter: "brightness(50%)" }}
       ></div>
 
-      <img src={NFlogo} alt="Netflix Logo" className="absolute top-10 left-12 w-44 h-auto z-10" />
+      <img
+        src={NFlogo}
+        alt="Netflix Logo"
+        className="absolute top-10 left-12 w-44 h-auto z-10"
+      />
 
       <div className="absolute inset-0 flex items-center justify-center z-10">
         <div className="w-full max-w-md p-8 bg-black bg-opacity-80 rounded text-white">
           <h2 className="text-3xl font-bold mb-6">Sign In</h2>
 
           <form onSubmit={handleSubmit} className="w-full">
-            <div className="mb-4">
-              <input
-                type="email"
-                placeholder="Email or mobile number"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full h-12 px-4 bg-gray-700 text-white rounded focus:outline-none"
-              />
-            </div>
+            <input
+              type="email"
+              placeholder="Email or mobile number"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full h-12 px-4 mb-4 bg-gray-700 text-white rounded focus:outline-none"
+            />
 
-            <div className="mb-4">
-              <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full h-12 px-4 bg-gray-700 text-white rounded focus:outline-none"
-              />
-            </div>
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full h-12 px-4 mb-4 bg-gray-700 text-white rounded focus:outline-none"
+            />
 
-            {error && <p className="text-red-500 text-sm">{error}</p>}
+            {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
             <button
               type="submit"
@@ -91,10 +71,10 @@ const Login = () => {
             </button>
 
             <div className="flex items-center justify-between text-sm text-gray-400 mt-3">
-              <div className="flex items-center">
+              <label className="flex items-center">
                 <input type="checkbox" className="mr-2" />
-                <span>Remember me</span>
-              </div>
+                Remember me
+              </label>
               <button className="hover:underline">Forgot password?</button>
             </div>
           </form>

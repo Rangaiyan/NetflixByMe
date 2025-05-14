@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import logo from "../../assets/netflix-logo.png";
-import axios from "axios";
+import { registerUser } from "../../utils/handleRegister";
 
 interface RegisterNavigationState {
   email: string;
@@ -19,58 +19,39 @@ const Register = () => {
 
   const handleRegister = async (event: React.FormEvent) => {
     event.preventDefault();
-  
+
     if (!username.trim()) {
       setError("Username is required.");
       return;
     }
-  
+
     if (!password || !confirmPassword) {
       setError("Password fields cannot be empty.");
       return;
     }
-  
+
     if (password !== confirmPassword) {
-      alert("Passwords don't match");
       setError("Passwords do not match.");
       return;
     }
-  
+
     setError("");
-  
+
     try {
-      const response = await axios.post("http://localhost:3000/auth/signup", {
+      const successMessage = await registerUser({
         name: username,
         email,
         password,
       });
-  
-      
-      if (response.data.message === "User already exists") {
-        setError("Email already registered. Please use a different one.");
-        return;
-      }
-  
-      if (response.status === 201 || response.data.message === "User signed up successfully!") {
-        navigate("/home");
-      } else {
-        setError("Signup failed. Please try again.");
-      }
-  
+      console.log(successMessage);
+      navigate("/login");
     } catch (error: any) {
-      console.error("Signup error:", error);
-      if (error.response?.data?.message === "User already exists") {
-        setError("Email already registered. Please sign in.");
-      } else {
-        setError("Something went wrong. Please try again later.");
-      }
+      setError(error.message);
     }
   };
-  
-  
+
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-white text-black">
-      
       <div className="w-full flex justify-between items-center px-6 py-4 border-b border-gray-300 bg-white fixed top-0 left-0">
         <img src={logo} alt="Netflix Logo" className="w-36 h-auto" />
         <button
@@ -81,21 +62,20 @@ const Register = () => {
         </button>
       </div>
 
-      
       <div className="w-full max-w-md mt-20 p-6">
-        <h2 className="text-2xl font-semibold mb-2">Create a password to start your membership</h2>
+        <h2 className="text-2xl font-semibold mb-2">
+          Create a password to start your membership
+        </h2>
         <p className="text-black max-w-md mb-6">
           Just a few more steps and you're done! <br /> We hate paperwork, too.
         </p>
 
         <form onSubmit={handleRegister} className="w-full">
-         
           <div className="mb-4 text-left">
             <p className="text-sm text-gray-600">Email</p>
             <span className="text-md font-medium text-black">{email}</span>
           </div>
 
-          
           <div className="mb-4 relative">
             <input
               type="text"
@@ -113,7 +93,6 @@ const Register = () => {
             </label>
           </div>
 
-          {/* Password Field */}
           <div className="mb-4 relative">
             <input
               type="password"
@@ -121,12 +100,13 @@ const Register = () => {
               placeholder=" "
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className={`peer w-full h-16 px-6 py-3 border-[1.5px] rounded bg-gray-100 text-black text-lg placeholder-transparent focus:outline-none leading-tight${password && confirmPassword
+              className={`peer w-full h-16 px-6 py-3 border-[1.5px] rounded bg-gray-100 text-black text-lg placeholder-transparent focus:outline-none leading-tight${
+                password && confirmPassword
                   ? password === confirmPassword
-                    ? ' border-green-500'
-                    : ' border-red-500'
-                  : ' border-gray-300'
-                }`}
+                    ? " border-green-500"
+                    : " border-red-500"
+                  : " border-gray-300"
+              }`}
             />
             <label
               htmlFor="password"
@@ -136,7 +116,6 @@ const Register = () => {
             </label>
           </div>
 
-          {/* Confirm Password Field */}
           <div className="mb-4 relative">
             <input
               type="password"
@@ -144,12 +123,13 @@ const Register = () => {
               placeholder=" "
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className={`peer w-full h-16 px-6 py-4 border-[1.5px] rounded bg-gray-100 text-black text-lg placeholder-transparent focus:outline-none leading-tight${password && confirmPassword
+              className={`peer w-full h-16 px-6 py-4 border-[1.5px] rounded bg-gray-100 text-black text-lg placeholder-transparent focus:outline-none leading-tight${
+                password && confirmPassword
                   ? password === confirmPassword
-                    ? ' border-green-500'
-                    : ' border-red-500'
-                  : ' border-gray-300'
-                }`}
+                    ? " border-green-500"
+                    : " border-red-500"
+                  : " border-gray-300"
+              }`}
             />
             <label
               htmlFor="confirmPassword"
