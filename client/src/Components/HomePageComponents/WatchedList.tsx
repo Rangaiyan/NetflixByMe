@@ -23,7 +23,7 @@ const WatchedList: React.FC = () => {
       setWatchedMovies(response.data.watchedMovies || []);
     } catch (error) {
       console.error("Error fetching watched movies:", error);
-      alert("Failed to fetch watched movies.");
+      // alert("Failed to fetch watched movies.");
     }
   };
 

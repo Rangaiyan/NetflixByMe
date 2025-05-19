@@ -1,4 +1,4 @@
-import{ useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AddMovieForm from "./AddMovieForm";
 import MovieList from "./MovieList";
@@ -6,6 +6,11 @@ import MovieList from "./MovieList";
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState<"add" | "list">("add");
   const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken"); 
+    navigate("/");
+  };
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -34,14 +39,16 @@ const AdminDashboard = () => {
           >
             Movie List
           </button>
+
           <button
-            onClick={() => navigate("/home")}
-            className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700"
+            onClick={handleLogout}
+            className="px-4 py-2 rounded bg-yellow-300 text-white hover:bg-red-600"
           >
-            Home
+            Logout
           </button>
         </div>
       </div>
+
       <div className="p-6">
         {activeTab === "add" && <AddMovieForm />}
         {activeTab === "list" && <MovieList />}

@@ -16,6 +16,7 @@ const Register = () => {
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleRegister = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -36,6 +37,7 @@ const Register = () => {
     }
 
     setError("");
+    setIsLoading(true);
 
     try {
       const successMessage = await registerUser({
@@ -47,6 +49,8 @@ const Register = () => {
       navigate("/login");
     } catch (error: any) {
       setError(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -143,9 +147,14 @@ const Register = () => {
 
           <button
             type="submit"
-            className="w-full text-white font-medium bg-red-600 hover:bg-red-500 rounded px-4 py-2 transition mt-4"
+            disabled={isLoading}
+            className={`w-full text-white font-medium rounded px-4 py-2 transition mt-4 ${
+              isLoading
+                ? "bg-red-400 cursor-not-allowed"
+                : "bg-red-600 hover:bg-red-500"
+            }`}
           >
-            Submit
+            {isLoading ? "Submitting..." : "Submit"}
           </button>
         </form>
       </div>

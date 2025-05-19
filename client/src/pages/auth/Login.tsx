@@ -3,12 +3,14 @@ import { useNavigate } from "react-router-dom";
 import NFlogo from "../../assets/netflix-logo.png";
 import bgImg from "../../assets/hero.png";
 import { loginUser } from "../../utils/authService";
+import LoaderButton from "../../Components/ui/LoaderButton";
 
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -19,11 +21,14 @@ const Login = () => {
     }
 
     try {
-      const token = await loginUser(email, password); 
+      setIsLoading(true);
+      const token = await loginUser(email, password);
       localStorage.setItem("accessToken", token);
       navigate("/home");
     } catch (err: any) {
       setError(err.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -63,12 +68,11 @@ const Login = () => {
 
             {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
-            <button
-              type="submit"
-              className="w-full h-12 bg-red-600 hover:bg-red-500 text-white font-bold rounded transition"
-            >
-              Sign In
-            </button>
+            <LoaderButton
+              isLoading={isLoading}
+              buttonText="Sign In"
+              loadingText="Signing In..."
+            />
 
             <div className="flex items-center justify-between text-sm text-gray-400 mt-3">
               <label className="flex items-center">
