@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../../api/axiosInstance";
 import { ContentRating, Language, Genre } from "../../utils/enums";
+import { toast } from "react-toastify";
 
 const AddMovieForm = () => {
   const [title, setTitle] = useState("");
@@ -43,20 +44,9 @@ const AddMovieForm = () => {
     formData.append("image", image);
 
     try {
-      const token = localStorage.getItem("accessToken");
+      const response = await api.post("/movies/insertOne", formData);
 
-      const response = await axios.post(
-        "http://localhost:3000/movies/insertOne",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      alert("Movie added successfully!");
+      toast.success("movie added successfully");
       console.log("Response:", response.data);
 
       setTitle("");

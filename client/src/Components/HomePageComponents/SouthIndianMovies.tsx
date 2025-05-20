@@ -9,7 +9,7 @@ interface Movie {
   year: number;
   contentRating: string;
   genre: string;
-  language: string; 
+  language: string;
 }
 
 interface SouthMoviesProps {

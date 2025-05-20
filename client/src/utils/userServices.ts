@@ -1,7 +1,9 @@
 import api from "../api/axiosInstance";
+import { getToken } from "./authUtils";
 
 export const getFavoriteMovies = async () => {
-  const token = localStorage.getItem("accessToken");
+
+  const token = getToken();
   if (!token) {
     alert("You need to log in to view your favorites.");
     throw new Error("No access token");

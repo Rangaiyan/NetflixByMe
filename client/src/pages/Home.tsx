@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import api from "../api/axiosInstance";
-import Navbar from "../Components/HomePageComponents/Navbar";
-import Banner from "../Components/HomePageComponents/Banner";
 import AllMovies from "../Components/HomePageComponents/AllMovies";
+import Banner from "../Components/HomePageComponents/Banner";
+import Navbar from "../Components/HomePageComponents/Navbar";
 import SouthIndianMovies from "../Components/HomePageComponents/SouthIndianMovies";
-import {OnAddToFav,OnAddToWatched   } from "../utils/movieActions"; 
+import { OnAddToFav, OnAddToWatched } from "../utils/movieActions";
+import Trending from "../Components/HomePageComponents/Trending";
 
 const HomePage: React.FC = () => {
   const [movies, setMovies] = useState<any[]>([]);
@@ -35,7 +36,7 @@ const HomePage: React.FC = () => {
       <Navbar setSearchResults={setSearchResults} />
       <Banner movie={movies[13]} />
 
-      {searchResults.length > 0 && (
+      {!!searchResults.length && (
         <div className="px-8 py-6">
           <h2 className="text-xl mb-3">Search Results</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
@@ -66,6 +67,7 @@ const HomePage: React.FC = () => {
         onAddToFav={handleAddToFav}
         onAddToWatched={handleAddToWatched}
       />
+      <Trending />
     </div>
   );
 };

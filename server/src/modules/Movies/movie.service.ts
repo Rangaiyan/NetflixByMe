@@ -209,12 +209,12 @@ export class MovieService {
     }
   }
 
-//  async getTrendingMovies(): Promise<Movie[]> {
-//     return this.movieModel
-//       .find()
-//       .sort({ viewsCount: -1 })
-//       .limit(10)
-//       .exec();
-//   }
+ async getTrendingMovies(): Promise<Movie[]> {
+    return this.movieModel
+      .find()
+      .sort({ viewsCount: -1 })
+      .limit(10)
+      .exec();
+  }
 
 }

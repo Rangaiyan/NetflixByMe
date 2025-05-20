@@ -1,9 +1,10 @@
-import { ConfigService } from '@nestjs/config';
-import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { MongooseModuleAsyncOptions } from '@nestjs/mongoose';
 
-export const MongooseConfig = MongooseModule.forRootAsync({
-  useFactory: (configService: ConfigService) => ({
+export const MongooseConfig: MongooseModuleAsyncOptions = {
+  imports: [ConfigModule], 
+  useFactory: async (configService: ConfigService) => ({
     uri: configService.get<string>('database.connectionString'),
   }),
   inject: [ConfigService],
-});
+};

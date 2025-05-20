@@ -7,6 +7,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { MovieModule } from './modules/Movies/movie.module';
 import { MulterModule } from '@nestjs/platform-express';
 import * as multer from 'multer'
+import { MongooseConfig } from 'mongoose.config';
 
 @Module({
   imports: [
@@ -16,13 +17,14 @@ import * as multer from 'multer'
       isGlobal: true,
       envFilePath: '.env',
     }),
-    MongooseModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: async(configService: ConfigService) => ({
-        uri: configService.get<string>('database.connectionString'),
-      }),
-      inject: [ConfigService],
-    }),
+    // MongooseModule.forRootAsync({
+    //   imports: [ConfigModule],
+    //   useFactory: async(configService: ConfigService) => ({
+    //     uri: configService.get<string>('database.connectionString'),
+    //   }),
+    //   inject: [ConfigService],
+    // }),
+    MongooseModule.forRootAsync(MongooseConfig),
 
     MulterModule.register({
       storage: multer.memoryStorage(),

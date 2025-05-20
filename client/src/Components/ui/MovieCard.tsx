@@ -79,7 +79,7 @@ const MovieCard: React.FC<MovieCardProps> = ({
                   }}
                   className="px-3 py-2 bg-green-600 text-sm rounded hover:bg-green-700"
                 >
-                  ✔ Watched
+                   Watched
                 </button>
               </div>
 

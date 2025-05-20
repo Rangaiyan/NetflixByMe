@@ -52,6 +52,10 @@ export class MovieController {
   async createBulk(@Body() movies: CreateMovieDto[]) {
     return this.movieService.createMany(movies);
   }
+  @Get('trending')
+  async getTrending(): Promise<Movie[]> {
+    return this.movieService.getTrendingMovies();
+  }
 
   @Patch('update/:id')
   @UseGuards(AdminGuard)
@@ -114,8 +118,5 @@ export class MovieController {
     return this.movieService.search(query);
   }
 
-  //  @Get('trending')
-  // async getTrending(): Promise<Movie[]> {
-  //   return this.movieService.getTrendingMovies();
-  // }
+   
 }
