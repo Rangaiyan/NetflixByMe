@@ -104,7 +104,7 @@ const Navbar: React.FC = () => {
             <img
               src={defaultUser}
               alt="User"
-              className="w-8 h-8 rounded-full cursor-pointer border border-gray-400"
+              className="w-8 h-8 rounded cursor-pointer border border-gray-400"
               onClick={() => setDropdownOpen((prev) => !prev)}
             />
             {dropdownOpen && (
