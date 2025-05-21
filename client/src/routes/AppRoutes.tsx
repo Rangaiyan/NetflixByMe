@@ -11,6 +11,7 @@ import AdminDashboard from "@pages/admin/AdminDashboard";
 
 import { getToken, getUserInfo } from "@utils/authUtils";
 import NotFoundPage from "@components/page404/NotFoundPage";
+import SearchResultsPage from "@pages/SearchResultPages";
 
 const PublicRoute = () => {
   const token = getToken();
@@ -48,12 +49,13 @@ const AppRoutes: React.FC = () => {
         <Route path="/home" element={<Home />} />
         <Route path="/mylist" element={<MyList />} />
         <Route path="/watched" element={<WatchedList />} />
+        <Route path="/search" element={<SearchResultsPage />} />
       </Route>
 
       <Route element={<AdminRoute />}>
         <Route path="/admin" element={<AdminDashboard />} />
       </Route>
-      <Route path="*" element={<NotFoundPage/>} />
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 };
