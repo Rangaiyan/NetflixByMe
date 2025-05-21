@@ -5,8 +5,7 @@ export interface Movie {
   description: string;
   year: number;
   contentRating: string;
-  genre: string[]; 
+  genre: string | string[];
   director: string;
   language: string;
- 
 }

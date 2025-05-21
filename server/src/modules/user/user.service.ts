@@ -101,4 +101,14 @@ export class UserService {
       watchedMovies: profile.watchedMovies,
     };
   }
+
+async getMoviesByGenre(genre: string, excludeMovieId?: string) {
+  const query = excludeMovieId
+    ? { genre: { $regex: `\\b${genre}\\b`, $options: 'i' }, _id: { $ne: excludeMovieId } }
+    : { genre: { $regex: `\\b${genre}\\b`, $options: 'i' } };
+
+  return await this.movieModel.find(query).exec();
+}
+
+
 }

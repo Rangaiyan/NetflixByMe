@@ -7,6 +7,7 @@ import {
   NotFoundException,
   UseGuards,
   Request,
+  Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { ApiBearerAuth } from '@nestjs/swagger';
@@ -43,5 +44,13 @@ export class UserController {
   @Get('watched')
   async getWatchedMovies(@Request() req) {
     return this.userService.getWatchedMovies(req.user.id);
+  }
+
+  @Get('genre/:genre')
+  async getMoviesByGenre(
+    @Param('genre') genre: string,
+    @Query('excludeId') excludeId?: string,
+  ) {
+    return this.userService.getMoviesByGenre(genre, excludeId);
   }
 }

@@ -23,20 +23,18 @@ import { Movie } from 'src/schemas/Movieschema/movies.schema';
 
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
-
 @Controller('movies')
 export class MovieController {
-  constructor(private readonly movieService: MovieService ) {}
+  constructor(private readonly movieService: MovieService) {}
 
-  @Post('InsertOne') 
+  @Post('InsertOne')
   @UseGuards(AdminGuard)
-  @UseInterceptors(FileInterceptor('image'))  
+  @UseInterceptors(FileInterceptor('image'))
   async create(
     @UploadedFile() image: Express.Multer.File,
     @Body() createMovieDto: CreateMovieDto,
   ) {
     try {
-     
       const movie = await this.movieService.create(image, createMovieDto);
       return movie;
     } catch (error) {
@@ -45,8 +43,6 @@ export class MovieController {
     }
   }
 
-
-  
   @UseGuards(AdminGuard)
   @Post('insertMany')
   async createBulk(@Body() movies: CreateMovieDto[]) {
@@ -118,5 +114,4 @@ export class MovieController {
     return this.movieService.search(query);
   }
 
-   
 }

@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
 import api from "@api/axiosInstance";
-import AllMovies from "@components/HomePageComponents/AllMovies";
 import Banner from "@components/HomePageComponents/Banner";
 import Navbar from "@components/HomePageComponents/Navbar";
-import SouthIndianMovies from "@components/HomePageComponents/SouthIndianMovies";
 import { OnAddToFav, OnAddToWatched } from "@utils/movieActions";
 import Trending from "@components/HomePageComponents/Trending";
 import { Movie } from "@shared/movieInterface";
+import MovieList from "@components/HomePageComponents/MovieList";
 
 const HomePage: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
-  const [searchResults, setSearchResults] = useState<Movie[]>([]);
+  // const [searchResults, setSearchResults] = useState<Movie[]>([]);
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -33,42 +32,41 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <div className="bg-black text-white min-h-screen relative">
-      <Navbar setSearchResults={setSearchResults} />
-      <Banner movie={movies[13]} />
+    <div className=" text-white min-h-screen relative">
+      <Navbar />
+      <Banner movie={movies[14]} />
 
-      {!!searchResults.length && (
-        <div className="px-8 py-6">
-          <h2 className="text-xl mb-3">Search Results</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            {searchResults.map((movie) => (
-              <div
-                key={movie._id}
-                className="cursor-pointer hover:scale-105 transition-transform"
-              >
-                <img
-                  src={movie.imageUrl}
-                  alt={movie.title}
-                  className="w-full h-48 object-cover rounded"
-                />
-                <p className="text-sm text-center mt-1">{movie.title}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      <AllMovies
+      <MovieList
         movies={movies}
         onAddToFav={handleAddToFav}
         onAddToWatched={handleAddToWatched}
+        title="All Movies"
       />
-      <SouthIndianMovies
+      <MovieList
         movies={movies}
         onAddToFav={handleAddToFav}
         onAddToWatched={handleAddToWatched}
+        title="South Indian Movies"
+        filterLanguage="Tamil"
+        emptyMessage="No South Indian movies found."
+      />
+      <MovieList
+        movies={movies}
+        onAddToFav={handleAddToFav}
+        onAddToWatched={handleAddToWatched}
+        title="HollyWood Movies"
+        filterLanguage="English"
+        emptyMessage="No Hollywood movies found."
       />
       <Trending />
+      <MovieList
+        movies={movies}
+        onAddToFav={handleAddToFav}
+        onAddToWatched={handleAddToWatched}
+        title="Korean Movies"
+        filterLanguage="Korean"
+        emptyMessage="No Korean movies found."
+      />
     </div>
   );
 };
