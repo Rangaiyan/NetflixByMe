@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
-import api from "../api/axiosInstance";
-import AllMovies from "../Components/HomePageComponents/AllMovies";
-import Banner from "../Components/HomePageComponents/Banner";
-import Navbar from "../Components/HomePageComponents/Navbar";
-import SouthIndianMovies from "../Components/HomePageComponents/SouthIndianMovies";
-import { OnAddToFav, OnAddToWatched } from "../utils/movieActions";
-import Trending from "../Components/HomePageComponents/Trending";
+import api from "@api/axiosInstance";
+import AllMovies from "@components/HomePageComponents/AllMovies";
+import Banner from "@components/HomePageComponents/Banner";
+import Navbar from "@components/HomePageComponents/Navbar";
+import SouthIndianMovies from "@components/HomePageComponents/SouthIndianMovies";
+import { OnAddToFav, OnAddToWatched } from "@utils/movieActions";
+import Trending from "@components/HomePageComponents/Trending";
+import { Movie } from "@shared/movieInterface";
 
 const HomePage: React.FC = () => {
-  const [movies, setMovies] = useState<any[]>([]);
-  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [searchResults, setSearchResults] = useState<Movie[]>([]);
 
   useEffect(() => {
     const fetchMovies = async () => {

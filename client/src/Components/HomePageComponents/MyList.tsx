@@ -1,17 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import MovieCard from "../ui/MovieCard";
-import { getFavoriteMovies } from "../../utils/userServices";
-
-interface Movie {
-  _id: string;
-  title: string;
-  imageUrl: string;
-  description: string;
-  year: number;
-  contentRating: string;
-  genre: string;
-}
+import MovieCard from "@ui/MovieCard";
+import { getFavoriteMovies } from "@utils/userServices";
+import { Movie } from "@shared/movieInterface";
 
 const MyList = () => {
   const [favoriteMovies, setFavoriteMovies] = useState<Movie[]>([]);
@@ -31,7 +22,7 @@ const MyList = () => {
         onClick={() => navigate("/home")}
         className="mb-4 text-white bg-red-600 px-4 py-1 rounded hover:bg-red-700 transition"
       >
-        ← Home
+        Home
       </button>
 
       <h2 className="text-xl font-semibold mb-3">My Favorite List</h2>

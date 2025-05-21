@@ -1,12 +1,9 @@
-import React from "react";
 import { FiChevronRight } from "react-icons/fi";
 
 function Footer() {
   return (
     <>
       <div className="py-10 px-[10%]">
-        {/* Email Section Centered */}
-        {/* Email Section Centered */}
         <div className="flex flex-col items-center text-center">
           <p className="max-w-xl pb-4">
             Ready to watch? Enter your email to create or restart your
@@ -31,8 +28,6 @@ function Footer() {
             </div>
           </div>
         </div>
-
-        {/* Footer Links and Info */}
         <div className="bg-black text-neutral-400 text-sm px-10 pt-10 pb-20 mt-10">
           <p className="mb-6">
             Questions? Call <span className="underline">000-800-919-1743</span>

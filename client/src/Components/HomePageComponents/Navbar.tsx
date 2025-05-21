@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import defaultUser from "../../assets/netflix-profile.jpg";
-import api from "../../api/axiosInstance";
-
+import defaultUser from "@assets/netflix-profile.jpg";
+import api from "@api/axiosInstance";
+import { Movie } from "@shared/movieInterface";
 const Navbar: React.FC<{
-  setSearchResults: (movies: any[]) => void;
+  setSearchResults: (movies: Movie[]) => void;
 }> = ({ setSearchResults }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [search, setSearch] = useState("");

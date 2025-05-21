@@ -20,7 +20,18 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+
+    "baseUrl": "./src",
+    "paths": {
+      "@assets/*": ["assets/*"],
+      "@utils/*": ["utils/*"],
+      "@components/*": ["Components/*"],
+      "@ui/*": ["Components/ui/*"],
+      "@shared/*": ["shared/*"],
+      "@api/*": ["api/*"],
+      "@pages/*": ["pages/*"]
+    }
   },
   "include": ["src"]
 }

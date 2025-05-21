@@ -1,9 +1,9 @@
-import TresndingCarousel from "../Components/landingPageComponents/TrendingCarousel";
-import JoinBenefits from "../Components/landingPageComponents/JoinBenifts";
-import HeroSection from "../Components/landingPageComponents/HeroSection";
-import FAQAccordion from "../Components/landingPageComponents/FAQAccordion";
-import Footer from "../Components/landingPageComponents/Footer";
-// just trying pull request
+import TresndingCarousel from "@components/landingPageComponents/TrendingCarousel";
+import JoinBenefits from "@components/landingPageComponents/JoinBenifts";
+import HeroSection from "@components/landingPageComponents/HeroSection";
+import FAQAccordion from "@components/landingPageComponents/FAQAccordion";
+import Footer from "@components/landingPageComponents/Footer";
+
 export default function Landing() {
   return (
     <div className="bg-black text-white">

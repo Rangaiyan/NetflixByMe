@@ -1,4 +1,4 @@
-import api from '../api/axiosInstance'; 
+import api from '@api/axiosInstance'; 
 import { toast } from "react-toastify";
 
 export const loginUser = async (email: string, password: string) => {

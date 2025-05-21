@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import api from "../../api/axiosInstance";
-import { ContentRating, Language, Genre } from "../../utils/enums";
+import api from "@api/axiosInstance";
+import { ContentRating, Language, Genre } from "@utils/enums";
 import { toast } from "react-toastify";
 
 const AddMovieForm = () => {

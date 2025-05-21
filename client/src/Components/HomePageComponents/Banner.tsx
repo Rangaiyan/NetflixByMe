@@ -1,5 +1,6 @@
+import { Movie } from "@shared/movieInterface";
 
-const Banner = ({ movie }: { movie: any }) => {
+const Banner = ({ movie }: { movie: Movie }) => {
   if (!movie) return null;
 
   return (

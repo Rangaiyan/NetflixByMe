@@ -1,15 +1,6 @@
 import React from "react";
-import MovieCard from "../ui/MovieCard";
-
-interface Movie {
-  _id: string;
-  title: string;
-  imageUrl: string;
-  description: string;
-  year: number;
-  contentRating: string;
-  genre: string;
-}
+import MovieCard from "@ui/MovieCard";
+import { Movie } from "@shared/movieInterface";
 
 interface AllMoviesProps {
   movies: Movie[];

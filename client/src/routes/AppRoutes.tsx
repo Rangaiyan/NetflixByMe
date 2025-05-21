@@ -1,16 +1,16 @@
 import React from "react";
 import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 
-import Landing from "../pages/LandingPage";
-import Login from "../pages/auth/Login";
-import Register from "../pages/auth/Register";
-import Home from "../pages/Home";
-import MyList from "../Components/HomePageComponents/MyList";
-import WatchedList from "../Components/HomePageComponents/WatchedList";
-import AdminDashboard from "../pages/admin/AdminDashboard";
+import Landing from "@pages/LandingPage";
+import Login from "@pages/auth/Login";
+import Register from "@pages/auth/Register";
+import Home from "@pages/Home";
+import MyList from "@components/HomePageComponents/MyList";
+import WatchedList from "@components/HomePageComponents/WatchedList";
+import AdminDashboard from "@pages/admin/AdminDashboard";
 
-import { getToken, getUserInfo } from "../utils/authUtils";
-import NotFoundPage from "../Components/page404/NotFoundPage";
+import { getToken, getUserInfo } from "@utils/authUtils";
+import NotFoundPage from "@components/page404/NotFoundPage";
 
 const PublicRoute = () => {
   const token = getToken();

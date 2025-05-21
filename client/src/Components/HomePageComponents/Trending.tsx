@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import api from "../../api/axiosInstance";
-import TrendingCard from "../ui/TrendingCard";
+import api from "@api/axiosInstance";
+import TrendingCard from "@ui/TrendingCard";
 
 interface Movie {
   _id: string;

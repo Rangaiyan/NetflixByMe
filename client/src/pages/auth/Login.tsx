@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import NFlogo from "../../assets/netflix-logo.png";
-import bgImg from "../../assets/hero.png";
-import { loginUser } from "../../utils/authService";
-import LoaderButton from "../../Components/ui/LoaderButton";
+import NFlogo from "@assets/netflix-logo.png";
+import bgImg from "@assets/hero.png";
+import { loginUser } from "@utils/authService";
+import LoaderButton from "@components/ui/LoaderButton";
+
 
 const Login = () => {
   const navigate = useNavigate();

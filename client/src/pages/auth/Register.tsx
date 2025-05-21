@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import logo from "../../assets/netflix-logo.png";
-import { registerUser } from "../../utils/handleRegister";
+import logo from "@assets/netflix-logo.png";
+import { registerUser } from "@utils/handleRegister";
 
 interface RegisterNavigationState {
   email: string;

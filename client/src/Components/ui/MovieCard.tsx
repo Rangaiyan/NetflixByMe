@@ -1,15 +1,6 @@
 import React, { useState } from "react";
 import { FaPlus } from "react-icons/fa";
-
-interface Movie {
-  _id: string;
-  title: string;
-  imageUrl: string;
-  description: string;
-  year: number;
-  contentRating: string;
-  genre: string;
-}
+import { Movie } from "@shared/movieInterface";
 
 interface MovieCardProps {
   movie: Movie;

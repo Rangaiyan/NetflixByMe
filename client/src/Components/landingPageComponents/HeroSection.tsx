@@ -1,4 +1,4 @@
-import heroImg from "../../assets/hero.png";
+import heroImg from "@assets/hero.png";
 import { Link, useNavigate } from "react-router-dom";
 import { FiChevronRight } from "react-icons/fi";
 import { useState } from "react";

@@ -1,17 +1,9 @@
 import React, { useEffect, useState } from "react";
 import MovieCard from "../ui/MovieCard";
 import { useNavigate } from "react-router-dom";
-import api from "../../api/axiosInstance"; 
+import api from "@api/axiosInstance"; 
+import { Movie } from "@shared/movieInterface";
 
-interface Movie {
-  _id: string;
-  title: string;
-  imageUrl: string;
-  description: string;
-  year: number;
-  contentRating: string;
-  genre: string;
-}
 
 const WatchedList: React.FC = () => {
   const [watchedMovies, setWatchedMovies] = useState<Movie[]>([]);
