@@ -9,7 +9,7 @@ import MovieList from "@components/HomePageComponents/MovieList";
 
 const HomePage: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
-  // const [searchResults, setSearchResults] = useState<Movie[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -18,6 +18,8 @@ const HomePage: React.FC = () => {
         setMovies(res.data);
       } catch (err) {
         console.error("Error loading movies:", err);
+      } finally {
+        setLoading(false); 
       }
     };
     fetchMovies();
@@ -32,41 +34,50 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <div className=" text-white min-h-screen relative">
+    <div className="text-white min-h-screen relative">
       <Navbar />
-      <Banner movie={movies[14]} />
 
-      <MovieList
-        movies={movies}
-        onAddToFav={handleAddToFav}
-        onAddToWatched={handleAddToWatched}
-        title="All Movies"
-      />
-      <MovieList
-        movies={movies}
-        onAddToFav={handleAddToFav}
-        onAddToWatched={handleAddToWatched}
-        title="South Indian Movies"
-        filterLanguage="Tamil"
-        emptyMessage="No South Indian movies found."
-      />
-      <MovieList
-        movies={movies}
-        onAddToFav={handleAddToFav}
-        onAddToWatched={handleAddToWatched}
-        title="HollyWood Movies"
-        filterLanguage="English"
-        emptyMessage="No Hollywood movies found."
-      />
-      <Trending />
-      <MovieList
-        movies={movies}
-        onAddToFav={handleAddToFav}
-        onAddToWatched={handleAddToWatched}
-        title="Korean Movies"
-        filterLanguage="Korean"
-        emptyMessage="No Korean movies found."
-      />
+      {loading ? (
+        <div className="flex justify-center items-center mt-90 text-2xl">
+          Loading.....
+        </div>
+      ) : (
+        <>
+          <Banner movie={movies[14]} />
+
+          <MovieList
+            movies={movies}
+            onAddToFav={handleAddToFav}
+            onAddToWatched={handleAddToWatched}
+            title="All Movies"
+          />
+          <MovieList
+            movies={movies}
+            onAddToFav={handleAddToFav}
+            onAddToWatched={handleAddToWatched}
+            title="South Indian Movies"
+            filterLanguage="Tamil"
+            emptyMessage="No South Indian movies found."
+          />
+          <MovieList
+            movies={movies}
+            onAddToFav={handleAddToFav}
+            onAddToWatched={handleAddToWatched}
+            title="HollyWood Movies"
+            filterLanguage="English"
+            emptyMessage="No Hollywood movies found."
+          />
+          <Trending />
+          <MovieList
+            movies={movies}
+            onAddToFav={handleAddToFav}
+            onAddToWatched={handleAddToWatched}
+            title="Korean Movies"
+            filterLanguage="Korean"
+            emptyMessage="No Korean movies found."
+          />
+        </>
+      )}
     </div>
   );
 };

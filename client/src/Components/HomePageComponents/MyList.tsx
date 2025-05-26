@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import MovieCard from "@ui/MovieCard";
 import { getFavoriteMovies } from "@utils/userServices";
 import { Movie } from "@shared/movieInterface";
+import Sample from "./Sample";
 
 const MyList = () => {
   const [favoriteMovies, setFavoriteMovies] = useState<Movie[]>([]);
@@ -36,6 +37,7 @@ const MyList = () => {
           <p className="text-gray-400 text-sm">No favorite movies yet.</p>
         )}
       </div>
+      {/* <Sample/> */}
     </div>
   );
 };

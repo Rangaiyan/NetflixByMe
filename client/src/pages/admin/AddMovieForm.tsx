@@ -3,68 +3,35 @@ import api from "@api/axiosInstance";
 import { ContentRating, Language, Genre } from "@utils/enums";
 import { toast } from "react-toastify";
 
+interface FormData {
+  title: string;
+  year: string;
+  description: string;
+  director: string;
+  language: Language | "";
+  genre: Genre[];
+  contentRating: ContentRating | "";
+  image: File | null;
+}
+
 const AddMovieForm = () => {
-  const [title, setTitle] = useState("");
-  const [year, setYear] = useState("");
-  const [description, setDescription] = useState("");
-  const [director, setDirector] = useState("");
-  const [language, setLanguage] = useState<Language | "">("");
-  const [genre, setGenre] = useState<Genre[]>([]);
-  const [contentRating, setContentRating] = useState<ContentRating | "">("");
-  const [image, setImage] = useState<File | null>(null);
+  const [formData, setFormData] = useState<FormData>({
+    title: "",
+    year: "",
+    description: "",
+    director: "",
+    language: "",
+    genre: [],
+    contentRating: "",
+    image: null,
+  });
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsLoading(true);
-
-    if (
-      !title ||
-      !year ||
-      !description ||
-      !director ||
-      !language ||
-      genre.length === 0 ||
-      !contentRating ||
-      !image
-    ) {
-      alert("Please fill in all required fields");
-      setIsLoading(false);
-      return;
-    }
-
-    const formData = new FormData();
-    formData.set("title", title);
-    formData.set("year", year);
-    formData.set("description", description);
-    formData.set("director", director);
-    formData.set("language", language);
-    formData.set("genre", genre.join(", "));
-    formData.set("contentRating", contentRating);
-    formData.append("image", image);
-
-    try {
-      const response = await api.post("/movies/insertOne", formData);
-
-      toast.success("movie added successfully");
-      console.log("Response:", response.data);
-
-      setTitle("");
-      setYear("");
-      setDescription("");
-      setDirector("");
-      setLanguage("");
-      setGenre([]);
-      setContentRating("");
-      setImage(null);
-    } catch (error: any) {
-      console.error("Error uploading movie:", error);
-      alert(
-        `Error: ${error?.response?.data?.message || "Something went wrong!"}`
-      );
-    } finally {
-      setIsLoading(false);
-    }
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleGenreChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -75,7 +42,66 @@ const AddMovieForm = () => {
         selectedGenres.push(options[i].value as Genre);
       }
     }
-    setGenre(selectedGenres);
+    setFormData((prev) => ({ ...prev, genre: selectedGenres }));
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData((prev) => ({ ...prev, image: e.target.files?.[0] || null }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    if (
+      !formData.title ||
+      !formData.year ||
+      !formData.description ||
+      !formData.director ||
+      !formData.language ||
+      formData.genre.length === 0 ||
+      !formData.contentRating ||
+      !formData.image
+    ) {
+      alert("Please fill in all required fields");
+      setIsLoading(false);
+      return;
+    }
+
+    const data = new FormData();
+    data.set("title", formData.title);
+    data.set("year", formData.year);
+    data.set("description", formData.description);
+    data.set("director", formData.director);
+    data.set("language", formData.language);
+    data.set("genre", formData.genre.join(", "));
+    data.set("contentRating", formData.contentRating);
+    if (formData.image) {
+      data.append("image", formData.image);
+    }
+
+    try {
+      const response = await api.post("/movies/insertOne", data);
+      toast.success("Movie added successfully");
+      console.log("Response:", response.data);
+      setFormData({
+        title: "",
+        year: "",
+        description: "",
+        director: "",
+        language: "",
+        genre: [],
+        contentRating: "",
+        image: null,
+      });
+    } catch (error: any) {
+      console.error("Error uploading movie:", error);
+      alert(
+        `Error: ${error?.response?.data?.message || "Something went wrong!"}`
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -100,8 +126,9 @@ const AddMovieForm = () => {
                   </label>
                   <input
                     type="text"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
+                    name="title"
+                    value={formData.title}
+                    onChange={handleInputChange}
                     placeholder="Movie title"
                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                     required
@@ -113,8 +140,9 @@ const AddMovieForm = () => {
                   </label>
                   <input
                     type="text"
-                    value={year}
-                    onChange={(e) => setYear(e.target.value)}
+                    name="year"
+                    value={formData.year}
+                    onChange={handleInputChange}
                     placeholder="Release year"
                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                     required
@@ -126,8 +154,9 @@ const AddMovieForm = () => {
                   </label>
                   <input
                     type="text"
-                    value={director}
-                    onChange={(e) => setDirector(e.target.value)}
+                    name="director"
+                    value={formData.director}
+                    onChange={handleInputChange}
                     placeholder="Director's name"
                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                     required
@@ -138,8 +167,9 @@ const AddMovieForm = () => {
                     Language
                   </label>
                   <select
-                    value={language}
-                    onChange={(e) => setLanguage(e.target.value as Language)}
+                    name="language"
+                    value={formData.language}
+                    onChange={handleInputChange}
                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                     required
                   >
@@ -160,9 +190,9 @@ const AddMovieForm = () => {
                   </label>
                   <select
                     multiple
-                    value={genre}
+                    value={formData.genre}
                     onChange={handleGenreChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 h-[calc(2.5rem*3)]" // Adjust height to show multiple options
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 h-[calc(2.5rem*3)]"
                     required
                     size={5}
                   >
@@ -181,10 +211,9 @@ const AddMovieForm = () => {
                     Content Rating
                   </label>
                   <select
-                    value={contentRating}
-                    onChange={(e) =>
-                      setContentRating(e.target.value as ContentRating)
-                    }
+                    name="contentRating"
+                    value={formData.contentRating}
+                    onChange={handleInputChange}
                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                     required
                   >
@@ -223,12 +252,12 @@ const AddMovieForm = () => {
                           or drag and drop
                         </p>
                         <p className="text-xs text-gray-500">
-                          {image ? image.name : "PNG, JPG, JPEG (MAX. 5MB)"}
+                          {formData.image ? formData.image.name : "PNG, JPG, JPEG (MAX. 5MB)"}
                         </p>
                       </div>
                       <input
                         type="file"
-                        onChange={(e) => setImage(e.target.files?.[0] || null)}
+                        onChange={handleFileChange}
                         className="hidden"
                         accept="image/*"
                         required
@@ -244,8 +273,9 @@ const AddMovieForm = () => {
                 Description
               </label>
               <textarea
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                name="description"
+                value={formData.description}
+                onChange={handleInputChange}
                 placeholder="Movie description"
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                 rows={4}

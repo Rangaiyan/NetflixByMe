@@ -10,8 +10,6 @@ interface MovieCardProps {
 
 const MovieCard: React.FC<MovieCardProps> = ({
   movie,
-  onAddToFav,
-  onAddToWatched,
 }) => {
   const navigate = useNavigate();
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { FaPlay, FaPlus } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
 import api from "@api/axiosInstance";
 import { Movie } from "@shared/movieInterface";
 import { OnAddToFav, OnAddToWatched } from "@utils/movieActions";
@@ -67,7 +67,7 @@ const MovieDetailsPage: React.FC = () => {
         className="h-[100vh] bg-cover bg-center relative z-10"
         style={{ backgroundImage: `url(${movie.imageUrl})` }}
       >
-        {/* Home Button Outside Gradient */}
+       
         <div className="absolute top-4 left-4 z-50">
           <button
             onClick={() => navigate("/home")}
@@ -77,7 +77,6 @@ const MovieDetailsPage: React.FC = () => {
           </button>
         </div>
 
-        {/* Overlay Content */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent px-8 pt-24 pb-16 flex flex-col justify-end">
           <h1 className="text-5xl font-bold mb-4">{movie.title}</h1>
           <p className="text-lg max-w-2xl mb-6">{movie.description}</p>

@@ -93,7 +93,6 @@ export class UserService {
     const profile = await this.profileModel
       .findOne({ userId })
       .populate('watchedMovies')
-      .exec();
 
     if (!profile) throw new NotFoundException('Profile not found');
 
@@ -107,7 +106,7 @@ async getMoviesByGenre(genre: string, excludeMovieId?: string) {
     ? { genre: { $regex: `\\b${genre}\\b`, $options: 'i' }, _id: { $ne: excludeMovieId } }
     : { genre: { $regex: `\\b${genre}\\b`, $options: 'i' } };
 
-  return await this.movieModel.find(query).exec();
+  return await this.movieModel.find(query);
 }
 
 

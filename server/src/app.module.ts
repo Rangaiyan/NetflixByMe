@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import configuration from './config/configuration';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
@@ -17,13 +17,6 @@ import { MongooseConfig } from 'mongoose.config';
       isGlobal: true,
       envFilePath: '.env',
     }),
-    // MongooseModule.forRootAsync({
-    //   imports: [ConfigModule],
-    //   useFactory: async(configService: ConfigService) => ({
-    //     uri: configService.get<string>('database.connectionString'),
-    //   }),
-    //   inject: [ConfigService],
-    // }),
     MongooseModule.forRootAsync(MongooseConfig),
 
     MulterModule.register({
